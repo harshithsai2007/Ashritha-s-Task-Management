@@ -1,0 +1,6 @@
+{
+  "name": "Ashritha's AI Journey",
+  "description": "An intelligent career growth operating system designed to help Ashritha systematically become an industry-ready AI Engineer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
