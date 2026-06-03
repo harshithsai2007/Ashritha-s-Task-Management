@@ -6,7 +6,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FIToolDay } from "../types";
-import { Wand2, Plus, X, Trash2, CheckCircle2 } from "lucide-react";
+import { Wand2, Plus, X, Trash2, CheckCircle2, AlertTriangle } from "lucide-react";
 
 interface ToolsModuleProps {
   days: FIToolDay[];
@@ -18,6 +18,7 @@ interface ToolsModuleProps {
 export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay }: ToolsModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
+  const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,10 +109,22 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay }
                         <span className="text-xs text-slate-200 font-semibold truncate select-none">{task.name}</span>
                       </div>
                       <button
-                        onClick={() => onDeleteDay(task.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-slate-900 rounded-lg text-slate-500 hover:text-red-400 transition-all cursor-pointer"
+                        onClick={() => {
+                          if (confirmDeleteId === task.id) {
+                            onDeleteDay(task.id);
+                            setConfirmDeleteId(null);
+                          } else {
+                            setConfirmDeleteId(task.id);
+                            setTimeout(() => setConfirmDeleteId(null), 3000);
+                          }
+                        }}
+                        className={`opacity-0 group-hover:opacity-100 p-1.5 rounded-lg transition-all cursor-pointer ${
+                          confirmDeleteId === task.id
+                            ? "bg-red-500/20 text-red-500 hover:bg-red-500/30"
+                            : "hover:bg-slate-900 text-slate-500 hover:text-red-400"
+                        }`}
                       >
-                        <Trash2 className="h-3.5 w-3.5" />
+                        {confirmDeleteId === task.id ? <AlertTriangle className="h-3.5 w-3.5" /> : <Trash2 className="h-3.5 w-3.5" />}
                       </button>
                     </motion.div>
                   ))
@@ -148,10 +161,22 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay }
                         <span className="text-xs text-slate-450 font-semibold line-through truncate select-none">{task.name}</span>
                       </div>
                       <button
-                        onClick={() => onDeleteDay(task.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-slate-900 rounded-lg text-slate-500 hover:text-red-400 transition-all cursor-pointer"
+                        onClick={() => {
+                          if (confirmDeleteId === task.id) {
+                            onDeleteDay(task.id);
+                            setConfirmDeleteId(null);
+                          } else {
+                            setConfirmDeleteId(task.id);
+                            setTimeout(() => setConfirmDeleteId(null), 3000);
+                          }
+                        }}
+                        className={`opacity-0 group-hover:opacity-100 p-1.5 rounded-lg transition-all cursor-pointer ${
+                          confirmDeleteId === task.id
+                            ? "bg-red-500/20 text-red-500 hover:bg-red-500/30"
+                            : "hover:bg-slate-900 text-slate-500 hover:text-red-400"
+                        }`}
                       >
-                        <Trash2 className="h-3.5 w-3.5" />
+                        {confirmDeleteId === task.id ? <AlertTriangle className="h-3.5 w-3.5" /> : <Trash2 className="h-3.5 w-3.5" />}
                       </button>
                     </motion.div>
                   ))

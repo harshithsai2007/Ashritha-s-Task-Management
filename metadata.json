@@ -1,6 +1,4 @@
 {
-  "name": "Ashritha's AI Journey",
-  "description": "An intelligent career growth operating system designed to help Ashritha systematically become an industry-ready AI Engineer.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "Ashritha's Task Management",
+  "description": "A premium personal growth dashboard for tracking learning, consistency, and progress through task completion."
 }

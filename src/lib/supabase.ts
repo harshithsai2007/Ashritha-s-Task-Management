@@ -1,18 +1,19 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { createClient } from "@supabase/supabase-js";
 import { CareerOSState } from "../types";
 
-// Read Supabase environment variables
-const supabaseUrl = (import.meta as any).env?.VITE_SUPABASE_URL || "";
-const supabaseAnonKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || "";
+// MongoDB connectivity indicator (checks via API health)
+export let mongoConnected = false;
 
-export const supabase = (supabaseUrl && supabaseAnonKey) 
-  ? createClient(supabaseUrl, supabaseAnonKey) 
-  : null;
+// Check MongoDB connection status on init
+(async () => {
+  try {
+    const res = await fetch("/api/health");
+    if (res.ok) {
+      mongoConnected = true;
+    }
+  } catch (_) {
+    mongoConnected = false;
+  }
+})();
 
 /**
  * Persists the Career OS State to MongoDB (via Express backend) and local storage.
@@ -31,6 +32,8 @@ export async function saveStateToCloud(state: CareerOSState) {
     });
     if (!res.ok) {
       console.warn("MongoDB API state save received non-200 status:", res.status);
+    } else {
+      mongoConnected = true;
     }
   } catch (err) {
     console.warn("Could not save to MongoDB cloud:", err);
@@ -54,6 +57,7 @@ export async function loadStateFromCloud(defaultState: CareerOSState): Promise<C
     if (res.ok) {
       const data = await res.json();
       if (data && data.state) {
+        mongoConnected = true;
         return data.state as CareerOSState;
       }
     }

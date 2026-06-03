@@ -48,7 +48,6 @@ export default function Sidebar({
     { id: "calendar", label: "Calendar", icon: Calendar, category: "Tracking" },
     { id: "analytics", label: "Analytics", icon: BarChart3, category: "Tracking" },
     { id: "achievements", label: "Achievements", icon: Award, category: "Gamification" },
-    { id: "settings", label: "Settings", icon: Settings, category: "Configuration" },
   ];
 
   const completionPercent = totalTasksCount > 0 
@@ -116,7 +115,7 @@ export default function Sidebar({
 
           {/* Navigation Links Grouped */}
           <nav className="space-y-4">
-            {["", "Domains", "Tracking", "Gamification", "Configuration"].map((category) => {
+            {["", "Domains", "Tracking", "Gamification"].map((category) => {
               const items = menuItems.filter((i) => (category ? i.category === category : !i.category));
               if (items.length === 0) return null;
 

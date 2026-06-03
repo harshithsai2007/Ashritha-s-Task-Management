@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import Sidebar from "./components/Sidebar";
 import { 
   initialMLTopics, 
@@ -28,7 +28,7 @@ import {
   ProgressRing, 
   ContributionHeatmap 
 } from "./components/Charts";
-import { loadStateFromCloud, saveStateToCloud, supabase } from "./lib/supabase";
+import { loadStateFromCloud, saveStateToCloud, mongoConnected } from "./lib/supabase";
 
 // Strategic Modules
 import MLModule from "./components/MLModule";
@@ -108,27 +108,16 @@ export default function App() {
     await saveStateToCloud(nextState);
   };
 
-  // Mouse spotlight glowing cursor tracker
-  const [mousePos, setMousePos] = React.useState({ x: -100, y: -100 });
-  const [isMouseDown, setIsMouseDown] = React.useState(false);
-  const [enableGlow, setEnableGlow] = React.useState(true);
+  // Mouse spotlight background minimal light tracker
+  const [mousePos, setMousePos] = React.useState({ x: -1000, y: -1000 });
 
   React.useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
-    const handleMouseDown = () => setIsMouseDown(true);
-    const handleMouseUp = () => setIsMouseDown(false);
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Live ticking date and clock logic
@@ -463,28 +452,14 @@ export default function App() {
   return (
     <div className="flex h-screen bg-[#0B1120] text-blue-50 overflow-hidden relative font-sans select-none" id="root-app-layout">
       
-      {/* Soft spotlight following the mouse smoothly - very low opacity */}
-      {enableGlow && (
-        <div 
-          className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-40"
-          style={{
-            background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.08), transparent 80%)`,
-          }}
-        />
-      )}
+      {/* Soft spotlight following the mouse smoothly - minimal light only */}
+      <div 
+        className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-40"
+        style={{
+          background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.08), transparent 80%)`,
+        }}
+      />
       
-      {/* Exquisite glowing microdot */}
-      {enableGlow && (
-        <div 
-          className="pointer-events-none fixed z-50 w-2.5 h-2.5 rounded-full bg-cyan-400 opacity-80 blur-[0.3px] shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]"
-          style={{
-            left: mousePos.x - 5,
-            top: mousePos.y - 5,
-            transform: isMouseDown ? "scale(0.7)" : "scale(1)",
-            transition: "transform 0.08s ease-out",
-          }}
-        />
-      )}
       
       {/* Sidebar navigation */}
       <Sidebar 
@@ -1022,125 +997,9 @@ export default function App() {
               </div>
             )}
 
-            {/* TAB-6: CONFIGURATION (SETTINGS) */}
-            {activeTab === "settings" && (
-              <div className="space-y-6 text-left">
-                <div className="bg-slate-900/40 p-6 rounded-2xl border border-slate-800">
-                  <h2 className="text-xl font-bold tracking-tight text-white mb-1">Configuration Settings</h2>
-                  <p className="text-xs text-slate-400">Manage user identity, database integration state, and local credentials representation.</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
-                  
-                  {/* Preferences Profile card */}
-                  <div className="bg-[#111827] rounded-[24px] p-6 border border-white/5 space-y-4">
-                    <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase">
-                      Profile Settings
-                    </span>
-                    <div className="space-y-4">
-                      <div className="space-y-1">
-                        <label className="text-[10px] text-slate-450 uppercase block font-bold">User Name</label>
-                        <input
-                          type="text"
-                          value={state.preferences?.userName || ""}
-                          onChange={(e) => {
-                            const updated = {
-                              ...state,
-                              preferences: {
-                                ...state.preferences,
-                                userName: e.target.value
-                              }
-                            };
-                            handleUpdateState(updated);
-                          }}
-                          className="w-full max-w-xs bg-slate-950 border border-slate-900 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
-                        />
-                      </div>
-
-                      {/* Toggle follow glow spotlight cursor */}
-                      <div className="flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setEnableGlow(!enableGlow)}
-                          className={`w-9 h-5 rounded-full transition-all flex items-center p-0.5 ${
-                            enableGlow ? "bg-indigo-600 justify-end" : "bg-slate-950 border border-slate-900 justify-start"
-                          }`}
-                        >
-                          <div className="w-4 h-4 bg-white rounded-full shadow" />
-                        </button>
-                        <span className="text-xs font-semibold text-slate-300">Enable premium glowing cursor effect</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Supabase backend status */}
-                  <div className="bg-[#111827] rounded-[24px] p-6 border border-white/5 space-y-4 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase block mb-3">
-                        Database Integration State
-                      </span>
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-3 h-3 rounded-full ${supabase ? "bg-emerald-500 animate-pulse" : "bg-orange-500"}`} />
-                        <span className="text-xs font-bold text-slate-200">
-                          {supabase ? "Supabase Cloud Backups Active" : "Local Storage Cache Sync Active"}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-450 leading-relaxed font-medium">
-                        {supabase 
-                          ? "Congratulations! Your growth database is successfully hooked up to active Supabase records. Refreshing or moving across computers will safely load progress."
-                          : "Your changes are currently cached inside browser local storage seamlessly. Connect a cloud-hosted Supabase project in Secrets panel to unlock persistent multi-device sync!"
-                        }
-                      </p>
-                    </div>
-
-                    <button
-                      onClick={() => setShowConfirmReset(true)}
-                      className="border border-red-500/20 bg-red-950/10 hover:bg-red-950/20 text-red-400 font-semibold text-xs px-4 py-2.5 rounded-xl transition-all font-mono self-start"
-                    >
-                      CLEAR ALL TASK DATA
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            )}
-
           </motion.div>
         </AnimatePresence>
       </main>
-
-      {/* Confirmation Modal for Resetting data */}
-      <AnimatePresence>
-        {showConfirmReset && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#111827] border border-white/5 w-full max-w-sm rounded-[24px] p-6 shadow-2xl space-y-4"
-            >
-              <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider">Dangerous Action Confirmation</h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-semibold">
-                Are you absolutely sure you want to delete all ML Topics, AI Projects, DSA Tracker logs, and Cloud elements permanently? This cannot be undone.
-              </p>
-              <div className="flex gap-3 pt-2">
-                <button
-                  onClick={() => setShowConfirmReset(false)}
-                  className="flex-1 bg-slate-900 hover:bg-slate-950 border border-slate-800 text-slate-350 font-semibold py-2.5 rounded-xl text-xs transition-all font-mono"
-                >
-                  CANCEL
-                </button>
-                <button
-                  onClick={handleResetData}
-                  className="flex-1 bg-red-650 hover:bg-red-700 text-white font-semibold py-2.5 rounded-xl text-xs transition-all font-mono"
-                >
-                  CLEAR FOREVER
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
     </div>
   );
