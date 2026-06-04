@@ -52,17 +52,48 @@ export async function loadStateFromCloud(defaultState: CareerOSState): Promise<C
     } catch (_) {}
   }
 
+  let cloudState: CareerOSState | null = null;
   try {
     const res = await fetch("/api/state");
     if (res.ok) {
       const data = await res.json();
       if (data && data.state) {
         mongoConnected = true;
-        return data.state as CareerOSState;
+        cloudState = data.state as CareerOSState;
       }
     }
   } catch (err) {
-    console.warn("Failed to fetch state from MongoDB, using local fallback state:", err);
+    console.warn("Failed to fetch state from MongoDB:", err);
+  }
+
+  // Auto-sync mechanism: if local device has more tasks than the cloud database
+  // (which happens when we just migrated or were offline), push local data to cloud.
+  const localTaskCount = parsedLocal ? (
+    (parsedLocal.mlTopics?.length || 0) + 
+    (parsedLocal.projectMilestones?.length || 0) + 
+    (parsedLocal.aiToolsDays?.length || 0) + 
+    (parsedLocal.dsaLogs?.length || 0) + 
+    (parsedLocal.cloudTopics?.length || 0)
+  ) : 0;
+
+  const cloudTaskCount = cloudState ? (
+    (cloudState.mlTopics?.length || 0) + 
+    (cloudState.projectMilestones?.length || 0) + 
+    (cloudState.aiToolsDays?.length || 0) + 
+    (cloudState.dsaLogs?.length || 0) + 
+    (cloudState.cloudTopics?.length || 0)
+  ) : 0;
+
+  if (parsedLocal && localTaskCount > cloudTaskCount) {
+    console.log("Local state is richer than cloud. Pushing local to cloud to sync across devices...");
+    saveStateToCloud(parsedLocal).catch(console.error);
+    return parsedLocal;
+  }
+
+  if (cloudState) {
+    // Save the cloud state locally to keep things in sync
+    localStorage.setItem("ashritha_ai_os_state", JSON.stringify(cloudState));
+    return cloudState;
   }
 
   return parsedLocal || defaultState;

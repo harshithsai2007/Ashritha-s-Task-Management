@@ -470,7 +470,7 @@ export default function App() {
       <div 
         className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-100"
         style={{
-          background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.45), transparent 80%)`,
+          background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.12), transparent 80%)`,
         }}
       />
       
