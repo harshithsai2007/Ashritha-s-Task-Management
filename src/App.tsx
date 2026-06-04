@@ -76,30 +76,44 @@ export default function App() {
     }
   });
 
-  // Load initial state from Supabase / localStorage on mount
+  // Load initial state from Supabase / localStorage on mount and poll for real-time updates
   React.useEffect(() => {
-    async function init() {
+    const defaultState = {
+      mlTopics: initialMLTopics,
+      projectMilestones: initialProjectMilestones,
+      aiToolsDays: initialAIToolsDays,
+      dsaLogs: initialDSALogs,
+      cloudTopics: initialCloudTopics,
+      streakState: defaultStreakState,
+      badges: initialBadges,
+      preferences: {
+        userName: "Ashritha"
+      }
+    };
+
+    async function fetchState() {
       try {
-        const cloudState = await loadStateFromCloud({
-          mlTopics: initialMLTopics,
-          projectMilestones: initialProjectMilestones,
-          aiToolsDays: initialAIToolsDays,
-          dsaLogs: initialDSALogs,
-          cloudTopics: initialCloudTopics,
-          streakState: defaultStreakState,
-          badges: initialBadges,
-          preferences: {
-            userName: "Ashritha"
+        const cloudState = await loadStateFromCloud(defaultState);
+        setState(prev => {
+          if (JSON.stringify(prev) !== JSON.stringify(cloudState)) {
+            return cloudState;
           }
+          return prev;
         });
-        setState(cloudState);
       } catch (err) {
-        console.error("Failed to load initial journey state:", err);
-      } finally {
-        setIsLoading(false);
+        console.error("Failed to load journey state:", err);
       }
     }
+
+    async function init() {
+      await fetchState();
+      setIsLoading(false);
+    }
+    
     init();
+
+    const interval = setInterval(fetchState, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   // Save changes to cloud / local storage
@@ -452,11 +466,11 @@ export default function App() {
   return (
     <div className="flex h-screen bg-[#0B1120] text-blue-50 overflow-hidden relative font-sans select-none" id="root-app-layout">
       
-      {/* Soft spotlight following the mouse smoothly - minimal light only */}
+      {/* Soft spotlight following the mouse smoothly - enhanced light */}
       <div 
-        className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-40"
+        className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-100"
         style={{
-          background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.08), transparent 80%)`,
+          background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.45), transparent 80%)`,
         }}
       />
       
