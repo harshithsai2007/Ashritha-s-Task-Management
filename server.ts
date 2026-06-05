@@ -36,10 +36,13 @@ app.get("/api/health", (req, res) => {
 // GET user growth state from MongoDB
 app.get("/api/state", async (req, res) => {
   try {
+    const user = req.query.user === "harshith" ? "harshith" : "ashritha";
+    const sessionId = `${user}_sole_warrior`;
+    
     const client = await getMongoClient();
     const db = client.db("growth_journal");
     const collection = db.collection("journey_state");
-    const doc = await collection.findOne({ session_id: "ashritha_sole_warrior" });
+    const doc = await collection.findOne({ session_id: sessionId });
     if (doc && doc.state) {
       res.json({ state: doc.state });
     } else {
@@ -59,11 +62,14 @@ app.post("/api/state", async (req, res) => {
       res.status(400).json({ error: "State body is required." });
       return;
     }
+    const user = req.query.user === "harshith" ? "harshith" : "ashritha";
+    const sessionId = `${user}_sole_warrior`;
+    
     const client = await getMongoClient();
     const db = client.db("growth_journal");
     const collection = db.collection("journey_state");
     await collection.updateOne(
-      { session_id: "ashritha_sole_warrior" },
+      { session_id: sessionId },
       { 
         $set: { 
           state: state,

@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
+  currentUser: "ashritha" | "harshith";
+  setCurrentUser: (user: "ashritha" | "harshith") => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
   streakCount: number;
@@ -30,6 +32,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ 
+  currentUser,
+  setCurrentUser,
   activeTab, 
   setActiveTab, 
   streakCount, 
@@ -90,10 +94,10 @@ export default function Sidebar({
             </div>
             <div>
               <h1 className="text-sm font-bold tracking-tight text-white leading-tight">
-                Ashritha
+                {currentUser === "ashritha" ? "Ashritha" : "Harshith"}
               </h1>
               <span className="text-[10px] text-slate-400 block font-normal leading-tight mt-0.5">
-                (hi cutie ~harshith)
+                {currentUser === "ashritha" ? "(hi cutie ~harshith)" : "(the architect)"}
               </span>
             </div>
           </div>
@@ -164,13 +168,21 @@ export default function Sidebar({
 
         {/* User Card Profile Footer */}
         <div className="p-4 border-t border-slate-900 bg-slate-950/40">
+          <button 
+            onClick={() => setCurrentUser(currentUser === "ashritha" ? "harshith" : "ashritha")}
+            className="w-full mb-3 py-2 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer"
+          >
+            Switch to {currentUser === "ashritha" ? "Harshith" : "Ashritha"}
+          </button>
           <div className="flex items-center gap-3 p-2 bg-[#111827]/40 rounded-xl border border-slate-900">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md text-xs select-none">
-              ASH
+              {currentUser === "ashritha" ? "ASH" : "HAR"}
             </div>
             <div className="min-w-0 flex-1">
-              <h4 className="text-xs font-semibold text-slate-200 truncate">Ashritha</h4>
-              <p className="text-[10px] text-indigo-400 font-mono tracking-tight font-semibold truncate leading-none">AI Engineer</p>
+              <h4 className="text-xs font-semibold text-slate-200 truncate">{currentUser === "ashritha" ? "Ashritha" : "Harshith"}</h4>
+              <p className="text-[10px] text-indigo-400 font-mono tracking-tight font-semibold truncate leading-none">
+                {currentUser === "ashritha" ? "AI Engineer" : "System Architect"}
+              </p>
             </div>
           </div>
         </div>

@@ -18,12 +18,12 @@ export let mongoConnected = false;
 /**
  * Persists the Career OS State to MongoDB (via Express backend) and local storage.
  */
-export async function saveStateToCloud(state: CareerOSState) {
+export async function saveStateToCloud(state: CareerOSState, userId: string = "ashritha") {
   // Always save locally for double resilience
-  localStorage.setItem("ashritha_ai_os_state", JSON.stringify(state));
+  localStorage.setItem("ai_os_state_" + userId, JSON.stringify(state));
 
   try {
-    const res = await fetch("/api/state", {
+    const res = await fetch("/api/state?user=" + userId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,8 +43,8 @@ export async function saveStateToCloud(state: CareerOSState) {
 /**
  * Fetches the user's state from MongoDB (via Express backend) or falls back to local storage.
  */
-export async function loadStateFromCloud(defaultState: CareerOSState): Promise<CareerOSState> {
-  const localCached = localStorage.getItem("ashritha_ai_os_state");
+export async function loadStateFromCloud(defaultState: CareerOSState, userId: string = "ashritha"): Promise<CareerOSState> {
+  const localCached = localStorage.getItem("ai_os_state_" + userId);
   let parsedLocal: CareerOSState | null = null;
   if (localCached) {
     try {
@@ -54,7 +54,7 @@ export async function loadStateFromCloud(defaultState: CareerOSState): Promise<C
 
   let cloudState: CareerOSState | null = null;
   try {
-    const res = await fetch("/api/state");
+    const res = await fetch("/api/state?user=" + userId);
     if (res.ok) {
       const data = await res.json();
       if (data && data.state) {
@@ -86,13 +86,13 @@ export async function loadStateFromCloud(defaultState: CareerOSState): Promise<C
 
   if (parsedLocal && localTaskCount > cloudTaskCount) {
     console.log("Local state is richer than cloud. Pushing local to cloud to sync across devices...");
-    saveStateToCloud(parsedLocal).catch(console.error);
+    saveStateToCloud(parsedLocal, userId).catch(console.error);
     return parsedLocal;
   }
 
   if (cloudState) {
     // Save the cloud state locally to keep things in sync
-    localStorage.setItem("ashritha_ai_os_state", JSON.stringify(cloudState));
+    localStorage.setItem("ai_os_state_" + userId, JSON.stringify(cloudState));
     return cloudState;
   }
 

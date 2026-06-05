@@ -59,11 +59,12 @@ import {
 } from "lucide-react";
 
 export default function App() {
+  const [currentUser, setCurrentUser] = React.useState<"ashritha" | "harshith">("ashritha");
   const [activeTab, setActiveTab] = React.useState<string>("dashboard");
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // Main Persistent State
-  const [state, setState] = React.useState<CareerOSState>({
+  // Default state for Ashritha
+  const defaultStateForAshritha: CareerOSState = {
     mlTopics: initialMLTopics,
     projectMilestones: initialProjectMilestones,
     aiToolsDays: initialAIToolsDays,
@@ -74,26 +75,33 @@ export default function App() {
     preferences: {
       userName: "Ashritha"
     }
-  });
+  };
+
+  // Default state for Harshith
+  const defaultStateForHarshith: CareerOSState = {
+    mlTopics: [{ id: "h-ml-1", name: "learn ML", isCompleted: false }],
+    projectMilestones: [{ id: "h-pm-1", name: "Daily linkedin post", isCompleted: false }],
+    aiToolsDays: [{ id: "h-ait-1", name: "learn n8n", isCompleted: false }],
+    dsaLogs: [{ id: "h-dsa-1", name: "daily one leetcode problem(dsa)", isCompleted: false }],
+    cloudTopics: [{ id: "h-cloud-1", name: "daily python learning", isCompleted: false }],
+    streakState: defaultStreakState,
+    badges: initialBadges,
+    preferences: {
+      userName: "Harshith"
+    }
+  };
+
+  // Main Persistent State
+  const [state, setState] = React.useState<CareerOSState>(defaultStateForAshritha);
 
   // Load initial state from Supabase / localStorage on mount and poll for real-time updates
   React.useEffect(() => {
-    const defaultState = {
-      mlTopics: initialMLTopics,
-      projectMilestones: initialProjectMilestones,
-      aiToolsDays: initialAIToolsDays,
-      dsaLogs: initialDSALogs,
-      cloudTopics: initialCloudTopics,
-      streakState: defaultStreakState,
-      badges: initialBadges,
-      preferences: {
-        userName: "Ashritha"
-      }
-    };
+    setIsLoading(true);
+    const defaultState = currentUser === "ashritha" ? defaultStateForAshritha : defaultStateForHarshith;
 
     async function fetchState() {
       try {
-        const cloudState = await loadStateFromCloud(defaultState);
+        const cloudState = await loadStateFromCloud(defaultState, currentUser);
         setState(prev => {
           if (JSON.stringify(prev) !== JSON.stringify(cloudState)) {
             return cloudState;
@@ -114,12 +122,12 @@ export default function App() {
 
     const interval = setInterval(fetchState, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentUser]);
 
   // Save changes to cloud / local storage
   const handleUpdateState = async (nextState: CareerOSState) => {
     setState(nextState);
-    await saveStateToCloud(nextState);
+    await saveStateToCloud(nextState, currentUser);
   };
 
   // Mouse spotlight background minimal light tracker
@@ -477,6 +485,8 @@ export default function App() {
       
       {/* Sidebar navigation */}
       <Sidebar 
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         streakCount={currentStreak}
