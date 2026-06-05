@@ -516,7 +516,7 @@ export default function App() {
                 <header className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 p-6 md:p-8 rounded-[28px] bg-gradient-to-br from-slate-900/40 via-[#111827]/60 to-[#111827]/20 border border-white/5 relative overflow-hidden">
                   <div className="space-y-2 relative z-10">
                     <h1 className="text-3xl font-black md:text-4xl text-white tracking-tight">
-                      Good Day, {state.preferences?.userName || "Ashritha"}.
+                      Good Day, {currentUser === "ashritha" ? "Ashritha" : "Harshith"}.
                     </h1>
                     <p className="text-xs text-slate-400 font-medium">
                       Build consistency, register task completions, and review your metrics systematically.
