@@ -136,7 +136,7 @@ export function ContributionHeatmap({
 
   return (
     <div className="flex flex-col h-full justify-between">
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="grid grid-cols-7 calendar-grid">
         {tiles.map((tile, i) => (
           <div
             key={i}

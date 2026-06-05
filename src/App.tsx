@@ -805,7 +805,7 @@ export default function App() {
                     </div>
 
                     {/* Day blocks */}
-                    <div className="grid grid-cols-7 gap-2.5">
+                    <div className="grid grid-cols-7 calendar-grid">
                       {/* Empty slots for Monday start in June 2026 (Mon=1, so Monday begins with June 1, vacancy = 0) */}
                       {Array.from({ length: 30 }).map((_, idx) => {
                         const dayNum = idx + 1;

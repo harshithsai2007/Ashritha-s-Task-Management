@@ -13,167 +13,188 @@ body {
   min-height: 100vh;
 }
 
-/* Custom premium scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #0B1120;
-}
-::-webkit-scrollbar-thumb {
-  background: #1F2937;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #374151;
-}
-
-/* Glassmorphism overlays */
-.glass-panel {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-card {
-  background: rgba(17, 24, 39, 0.4);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+::-webkit-scrollbar { width: 8px; height: 8px; }
 
 /* ============================================
-   STRICT 2-COLOR THEME SYSTEM
+   HARSHITH THEME - STRICT 2-COLOR SYSTEM
    ============================================ */
 
 body.theme-login {
   --c-bg: #F0E7D5;
   --c-fg: #212842;
+  background-color: var(--c-bg) !important;
+  color: var(--c-fg) !important;
 }
+
 body.theme-harshith {
   --c-bg: #F5EBD0; /* Warm Cream */
   --c-fg: #7F011F; /* Deep Crimson */
 }
-body.theme-ashritha {
-  --c-bg: #FFE4E1; /* Soft Blush */
-  --c-fg: #BF7E81; /* Dusty Rose */
-}
 
-/* 1. Reset everything to the 2 colors */
-body.theme-harshith, body.theme-ashritha {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-}
+/* Base resets for Harshith */
+body.theme-harshith { background-color: var(--c-bg) !important; color: var(--c-fg) !important; }
+body.theme-harshith #root-app-layout { background-color: var(--c-bg) !important; }
 
-/* 2. Strip all hardcoded Tailwind backgrounds and text colors */
-body.theme-harshith [class*="bg-"], body.theme-ashritha [class*="bg-"] {
-  background-color: transparent !important;
-  background-image: none !important;
-}
-body.theme-harshith [class*="text-"], body.theme-ashritha [class*="text-"] {
-  color: inherit !important;
-}
-body.theme-harshith [class*="border-"], body.theme-ashritha [class*="border-"] {
-  border-color: var(--c-fg) !important;
-}
-/* Ensure strokes and box-shadows don't leak colors */
-body.theme-harshith *, body.theme-ashritha * {
-  box-shadow: none !important;
-  border-color: var(--c-fg) !important;
-}
+/* Strip all hardcoded colors for Harshith */
+body.theme-harshith [class*="bg-"] { background-color: transparent !important; background-image: none !important; }
+body.theme-harshith [class*="text-"] { color: inherit !important; }
+body.theme-harshith [class*="border-"] { border-color: var(--c-fg) !important; }
+body.theme-harshith * { box-shadow: none !important; border-color: var(--c-fg) !important; }
 
-/* 3. Re-apply background logic selectively */
-/* Main layout root */
-body.theme-harshith #root-app-layout, body.theme-ashritha #root-app-layout {
-  background-color: var(--c-bg) !important;
-}
-
-/* Panels (Sidebar, cards, modals, headers) */
-body.theme-harshith aside, body.theme-harshith .rounded-\[24px\], body.theme-harshith .rounded-\[28px\], body.theme-harshith .rounded-\[32px\], body.theme-harshith .p-6.border, body.theme-harshith header, body.theme-harshith .bg-\[\#111827\], body.theme-harshith .bg-slate-900\/40, body.theme-harshith .glass-panel, body.theme-harshith .glass-card,
-body.theme-ashritha aside, body.theme-ashritha .rounded-\[24px\], body.theme-ashritha .rounded-\[28px\], body.theme-ashritha .rounded-\[32px\], body.theme-ashritha .p-6.border, body.theme-ashritha header, body.theme-ashritha .bg-\[\#111827\], body.theme-ashritha .bg-slate-900\/40, body.theme-ashritha .glass-panel, body.theme-ashritha .glass-card {
+/* Panels for Harshith */
+body.theme-harshith aside, body.theme-harshith .rounded-\[24px\], body.theme-harshith .rounded-\[28px\], body.theme-harshith .rounded-\[32px\], body.theme-harshith .p-6.border, body.theme-harshith header, body.theme-harshith .bg-\[\#111827\], body.theme-harshith .bg-slate-900\/40, body.theme-harshith .glass-panel, body.theme-harshith .glass-card {
   background-color: var(--c-fg) !important;
-  color: var(--c-bg) !important; /* Text inside panels flips to background color */
+  color: var(--c-bg) !important; 
   border: 1px solid var(--c-bg) !important;
 }
 
-/* Nested panels (active list items, deep cards) flip back */
-body.theme-harshith .p-3.bg-slate-950, body.theme-harshith .bg-slate-950\/45, body.theme-harshith .bg-slate-950\/20, body.theme-harshith .bg-slate-950\/60, body.theme-harshith .bg-slate-900,
+/* Nested panels flip back */
+body.theme-harshith .p-3.bg-slate-950, body.theme-harshith .bg-slate-950\/45, body.theme-harshith .bg-slate-950\/20, body.theme-harshith .bg-slate-950\/60, body.theme-harshith .bg-slate-900 {
+  background-color: var(--c-bg) !important;
+  color: var(--c-fg) !important;
+  border-color: var(--c-fg) !important;
+}
+
+/* Charts & SVGs */
+body.theme-harshith svg path, body.theme-harshith svg circle, body.theme-harshith svg line { stroke: currentColor !important; }
+body.theme-harshith svg.lucide { fill: none !important; }
+body.theme-harshith svg defs stop { stop-color: var(--c-fg) !important; }
+
+/* Progress bars */
+body.theme-harshith .h-full.rounded-full { background-color: var(--c-bg) !important; background-image: none !important; }
+body.theme-harshith .bg-slate-950.rounded-full, body.theme-harshith .bg-slate-900.rounded-full { background-color: var(--c-fg) !important; opacity: 0.8; }
+
+/* Calendar cells for Harshith */
+body.theme-harshith .cal-day-0 { background-color: transparent !important; opacity: 0.4; }
+body.theme-harshith .cal-day-1 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 0.5; }
+body.theme-harshith .cal-day-2 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 0.75; }
+body.theme-harshith .cal-day-3 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 1; font-weight: 900; border: 2px solid var(--c-fg) !important; }
+
+/* HARSHITH GRID OVERRIDES */
+body.theme-harshith .calendar-grid {
+  gap: 1px !important;
+  background-color: var(--c-fg) !important;
+  border: 1px solid var(--c-fg) !important;
+  padding: 1px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+body.theme-harshith .calendar-grid > div {
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* Heatmap Chart override */
+body.theme-harshith .bg-indigo-950, body.theme-harshith .bg-indigo-800, body.theme-harshith .bg-indigo-600, body.theme-harshith .bg-cyan-400 {
+  background-color: var(--c-bg) !important; color: var(--c-fg) !important;
+}
+body.theme-harshith .bg-indigo-950 { opacity: 0.4; border: none !important; }
+body.theme-harshith .bg-indigo-800 { opacity: 0.6; border: none !important; }
+body.theme-harshith .bg-indigo-600 { opacity: 0.8; border: none !important; }
+body.theme-harshith .bg-cyan-400 { opacity: 1; font-weight: bold; border: none !important; }
+
+/* Inputs and Buttons */
+body.theme-harshith button { background-color: var(--c-bg) !important; color: var(--c-fg) !important; border-color: var(--c-fg) !important; }
+body.theme-harshith button.bg-indigo-600 { border: 2px solid var(--c-fg) !important; }
+body.theme-harshith input { background-color: var(--c-bg) !important; color: var(--c-fg) !important; border-color: var(--c-fg) !important; }
+body.theme-harshith input::placeholder { color: var(--c-fg) !important; opacity: 0.6; }
+body.theme-harshith ::-webkit-scrollbar-track { background: var(--c-bg); }
+body.theme-harshith ::-webkit-scrollbar-thumb { background: var(--c-fg); }
+
+
+/* ============================================
+   ASHRITHA THEME - BESPOKE GLASSMORPHISM
+   ============================================ */
+
+body.theme-ashritha {
+  background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 100%) !important;
+  background-attachment: fixed !important;
+  color: #4A2333 !important; /* Deep Plum for readable text */
+}
+
+/* Safe text color resets */
+body.theme-ashritha .text-white, body.theme-ashritha .text-slate-100, body.theme-ashritha .text-slate-200 { color: #4A2333 !important; }
+body.theme-ashritha .text-slate-400, body.theme-ashritha .text-slate-500 { color: #8B5A65 !important; } /* Soft Rose */
+body.theme-ashritha .text-indigo-400, body.theme-ashritha .text-cyan-400, body.theme-ashritha .text-emerald-400, body.theme-ashritha .text-amber-500, body.theme-ashritha .text-purple-400, body.theme-ashritha .text-sky-400 {
+  color: #D81B60 !important; /* Vibrant pink accent */
+}
+
+/* Background panel resets to Frosted Glass */
+body.theme-ashritha .bg-\[\#111827\], body.theme-ashritha .bg-\[\#0B1120\], body.theme-ashritha aside, body.theme-ashritha .bg-slate-900\/40, body.theme-ashritha .glass-panel, body.theme-ashritha .glass-card, body.theme-ashritha .p-6.border, body.theme-ashritha .rounded-\[24px\], body.theme-ashritha .rounded-\[28px\], body.theme-ashritha .rounded-\[32px\] {
+  background: rgba(255, 255, 255, 0.60) !important;
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 12px 40px rgba(191, 126, 129, 0.1) !important;
+}
+
+/* Nested small panels (like active list items) */
 body.theme-ashritha .p-3.bg-slate-950, body.theme-ashritha .bg-slate-950\/45, body.theme-ashritha .bg-slate-950\/20, body.theme-ashritha .bg-slate-950\/60, body.theme-ashritha .bg-slate-900 {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-  border-color: var(--c-fg) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  color: #4A2333 !important;
+  box-shadow: 0 2px 10px rgba(191, 126, 129, 0.05) !important;
 }
 
-/* 4. Chart & Graphics overrides */
-body.theme-harshith svg path, body.theme-harshith svg circle, body.theme-harshith svg line,
-body.theme-ashritha svg path, body.theme-ashritha svg circle, body.theme-ashritha svg line {
-  stroke: currentColor !important;
-}
-/* Ensure Lucide icons don't get filled */
-body.theme-harshith svg.lucide, body.theme-ashritha svg.lucide {
-  fill: none !important;
-}
-/* Specifically target Charts component gradient fills so they use FG */
-body.theme-harshith svg defs stop, body.theme-ashritha svg defs stop {
-  stop-color: var(--c-fg) !important;
+/* Dashboard Hero Header Gradient */
+body.theme-ashritha header.flex {
+  background: linear-gradient(135deg, rgba(255, 182, 193, 0.25), rgba(255, 105, 180, 0.1)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
 }
 
-/* Progress bars and filled elements */
-body.theme-harshith .h-full.rounded-full, body.theme-ashritha .h-full.rounded-full {
-  background-color: var(--c-bg) !important;
-  background-image: none !important;
+/* Progress bars and Tracks */
+body.theme-ashritha .bg-slate-950.rounded-full, body.theme-ashritha .bg-slate-900.rounded-full {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 182, 193, 0.3) !important;
 }
-/* Inner nested progress bars on panels vs main backgrounds */
-body.theme-harshith .bg-slate-950.rounded-full, body.theme-ashritha .bg-slate-950.rounded-full,
-body.theme-harshith .bg-slate-900.rounded-full, body.theme-ashritha .bg-slate-900.rounded-full {
-  background-color: var(--c-fg) !important; /* The track */
-  opacity: 0.8;
+body.theme-ashritha .h-full.rounded-full {
+  background: linear-gradient(90deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%) !important; /* Beautiful vibrant pink gradient */
+  box-shadow: 0 0 10px rgba(255, 154, 158, 0.4) !important;
 }
 
-/* 5. Calendar Cells */
-.cal-day-0 { background-color: transparent !important; opacity: 0.4; }
-.cal-day-1 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 0.5; }
-.cal-day-2 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 0.75; }
-.cal-day-3 { background-color: var(--c-bg) !important; color: var(--c-fg) !important; opacity: 1; font-weight: 900; border: 2px solid var(--c-fg) !important; }
+/* Calendar Cells (App.tsx and Charts.tsx) */
+body.theme-ashritha .calendar-grid { gap: 6px !important; }
+body.theme-ashritha .cal-day-0 { background: rgba(255, 255, 255, 0.4) !important; border: 1px solid rgba(255,255,255,0.6) !important; color: #8B5A65 !important; }
+body.theme-ashritha .cal-day-1 { background: rgba(255, 182, 193, 0.4) !important; border: 1px solid rgba(255, 182, 193, 0.6) !important; color: #D81B60 !important; }
+body.theme-ashritha .cal-day-2 { background: rgba(255, 105, 180, 0.6) !important; border: 1px solid rgba(255, 105, 180, 0.8) !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+body.theme-ashritha .cal-day-3 { background: linear-gradient(135deg, #FF69B4, #D81B60) !important; border: none !important; color: #fff !important; font-weight: 900; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3) !important; }
 
-/* 6. Heatmap Calendar overrides for Charts.tsx */
-body.theme-harshith .bg-indigo-950, body.theme-harshith .bg-indigo-800, body.theme-harshith .bg-indigo-600, body.theme-harshith .bg-cyan-400,
-body.theme-ashritha .bg-indigo-950, body.theme-ashritha .bg-indigo-800, body.theme-ashritha .bg-indigo-600, body.theme-ashritha .bg-cyan-400 {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-}
-/* We use opacity to differentiate heatmap levels instead of colors */
-body.theme-harshith .bg-indigo-950, body.theme-ashritha .bg-indigo-950 { opacity: 0.4; border-color: var(--c-fg) !important; }
-body.theme-harshith .bg-indigo-800, body.theme-ashritha .bg-indigo-800 { opacity: 0.6; border-color: var(--c-fg) !important; }
-body.theme-harshith .bg-indigo-600, body.theme-ashritha .bg-indigo-600 { opacity: 0.8; border-color: var(--c-fg) !important; }
-body.theme-harshith .bg-cyan-400, body.theme-ashritha .bg-cyan-400 { opacity: 1; font-weight: bold; border-color: var(--c-fg) !important; border-width: 2px; }
+/* Heatmap specific classes */
+body.theme-ashritha .bg-slate-900.border-slate-800 { background: rgba(255,255,255,0.4) !important; border: 1px solid rgba(255,255,255,0.6) !important; }
+body.theme-ashritha .bg-indigo-950 { background: rgba(255, 182, 193, 0.4) !important; border: 1px solid rgba(255, 182, 193, 0.6) !important; }
+body.theme-ashritha .bg-indigo-800 { background: rgba(255, 105, 180, 0.6) !important; border: 1px solid rgba(255, 105, 180, 0.8) !important; }
+body.theme-ashritha .bg-indigo-600 { background: rgba(216, 27, 96, 0.8) !important; border: 1px solid rgba(216, 27, 96, 0.9) !important; }
+body.theme-ashritha .bg-cyan-400 { background: linear-gradient(135deg, #FF69B4, #D81B60) !important; border: none !important; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3) !important; }
 
-/* 7. Buttons */
-body.theme-harshith button, body.theme-ashritha button {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-  border-color: var(--c-fg) !important;
-}
-/* Navigation active state in sidebar */
-body.theme-harshith button.bg-indigo-600, body.theme-ashritha button.bg-indigo-600 {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-  border: 2px solid var(--c-fg) !important;
-}
+/* SVG overrides */
+body.theme-ashritha svg defs stop { stop-color: #FF9A9E !important; }
+body.theme-ashritha svg defs stop:last-child { stop-color: #FECFEF !important; }
+body.theme-ashritha svg path[stroke="#6366F1"] { stroke: #D81B60 !important; filter: drop-shadow(0 4px 6px rgba(216, 27, 96, 0.2)); }
+body.theme-ashritha svg circle { stroke: #FF9A9E !important; }
 
-/* 8. Inputs */
-body.theme-harshith input, body.theme-ashritha input {
-  background-color: var(--c-bg) !important;
-  color: var(--c-fg) !important;
-  border-color: var(--c-fg) !important;
+/* Inputs and Buttons */
+body.theme-ashritha button {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 182, 193, 0.5) !important;
+  color: #D81B60 !important;
+  transition: all 0.3s ease !important;
 }
-body.theme-harshith input::placeholder, body.theme-ashritha input::placeholder {
-  color: var(--c-fg) !important;
-  opacity: 0.6;
+body.theme-ashritha button:hover { background: rgba(255, 255, 255, 0.9) !important; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.2) !important; }
+body.theme-ashritha button.bg-indigo-600 {
+  background: linear-gradient(135deg, #FF9A9E, #D81B60) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3) !important;
 }
+body.theme-ashritha input {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #4A2333 !important;
+  border: 1px solid rgba(255, 182, 193, 0.4) !important;
+}
+body.theme-ashritha input:focus { border-color: #D81B60 !important; box-shadow: 0 0 0 2px rgba(216, 27, 96, 0.1) !important; }
+body.theme-ashritha input::placeholder { color: #8B5A65 !important; opacity: 0.5; }
 
-/* 9. Scrollbar override */
-body.theme-harshith ::-webkit-scrollbar-track, body.theme-ashritha ::-webkit-scrollbar-track { background: var(--c-bg); }
-body.theme-harshith ::-webkit-scrollbar-thumb, body.theme-ashritha ::-webkit-scrollbar-thumb { background: var(--c-fg); }
-body.theme-harshith ::-webkit-scrollbar-thumb:hover, body.theme-ashritha ::-webkit-scrollbar-thumb:hover { background: var(--c-fg); opacity: 0.8; }
+/* Scrollbar */
+body.theme-ashritha ::-webkit-scrollbar-track { background: transparent; }
+body.theme-ashritha ::-webkit-scrollbar-thumb { background: rgba(255, 182, 193, 0.8); border-radius: 8px; }
+body.theme-ashritha ::-webkit-scrollbar-thumb:hover { background: rgba(216, 27, 96, 0.7); }
+
