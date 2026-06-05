@@ -1,49 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import "tailwindcss";
+const fs = require('fs');
+const path = require('path');
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
-}
+const indexCssPath = path.join(__dirname, 'src', 'index.css');
+let cssContent = fs.readFileSync(indexCssPath, 'utf8');
 
-body {
-  background-color: #0B1120;
-  color: #FFFFFF;
-  font-family: var(--font-sans);
-  min-height: 100vh;
-}
-
-/* Custom premium scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #0B1120;
-}
-::-webkit-scrollbar-thumb {
-  background: #1F2937;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #374151;
-}
-
-/* Glassmorphism overlays */
-.glass-panel {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-card {
-  background: rgba(17, 24, 39, 0.4);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-
-
+const newCss = `
 /* --- DYNAMIC THEME SYSTEM --- */
 .theme-login {
   --bg-main: #F0E7D5;
@@ -77,15 +38,15 @@ body.theme-login *, body.theme-harshith *, body.theme-ashritha * {
   border-color: var(--border-color);
 }
 
-body.theme-login .bg-\[\#0B1120\],
-body.theme-harshith .bg-\[\#0B1120\],
-body.theme-ashritha .bg-\[\#0B1120\] {
+body.theme-login .bg-\\[\\#0B1120\\],
+body.theme-harshith .bg-\\[\\#0B1120\\],
+body.theme-ashritha .bg-\\[\\#0B1120\\] {
   background-color: var(--bg-main) !important;
 }
 
-body.theme-login .bg-\[\#111827\],
-body.theme-harshith .bg-\[\#111827\],
-body.theme-ashritha .bg-\[\#111827\] {
+body.theme-login .bg-\\[\\#111827\\],
+body.theme-harshith .bg-\\[\\#111827\\],
+body.theme-ashritha .bg-\\[\\#111827\\] {
   background-color: var(--bg-panel) !important;
 }
 
@@ -112,4 +73,12 @@ body.theme-login .text-cyan-400,
 body.theme-harshith .text-cyan-400,
 body.theme-ashritha .text-cyan-400 {
   color: var(--text-main) !important;
+}
+`;
+
+if (!cssContent.includes("DYNAMIC THEME SYSTEM")) {
+  fs.writeFileSync(indexCssPath, cssContent + "\n" + newCss);
+  console.log("CSS themes injected.");
+} else {
+  console.log("Themes already exist.");
 }

@@ -15,9 +15,10 @@ interface DSAModuleProps {
   onDeleteLog: (id: string) => void;
   title?: string;
   description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
-export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, title, description }: DSAModuleProps) {
+export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, title, description, icon: CustomIcon }: DSAModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -54,7 +55,7 @@ export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, ti
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/40 p-6 rounded-2xl border border-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-            <Terminal className="h-6 w-6" />
+            {CustomIcon ? <CustomIcon className="h-6 w-6" /> : <Terminal className="h-6 w-6" />}
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-white">{title || "DSA Tracker"}</h2>
@@ -74,7 +75,7 @@ export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, ti
         /* Empty State */
         <div className="flex flex-col items-center justify-center p-16 bg-[#111827] rounded-[24px] border border-white/5 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-slate-600">
-            <Terminal className="h-5 w-5" />
+            {CustomIcon ? <CustomIcon className="h-5 w-5" /> : <Terminal className="h-5 w-5" />}
           </div>
           <span className="text-sm font-semibold text-slate-450">No tasks added yet.</span>
           <p className="text-xs text-slate-500 max-w-xs">Create your very first DSA algotask here to start building your structural coding patterns.</p>
@@ -208,7 +209,7 @@ export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, ti
               </button>
 
               <div className="flex items-center gap-2.5 mb-4">
-                <Terminal className="h-5 w-5 text-purple-450" />
+                {CustomIcon ? <CustomIcon className="h-5 w-5 text-purple-450" /> : <Terminal className="h-5 w-5 text-purple-450" />}
                 <span className="text-sm font-bold text-white uppercase tracking-wider font-mono">Create Task</span>
               </div>
 

@@ -19,7 +19,11 @@ import {
   Menu, 
   X,
   Target,
-  LogOut
+  LogOut,
+  MessageSquare,
+  Zap,
+  Code2,
+  FileCode2
 } from "lucide-react";
 
 interface SidebarProps {
@@ -46,10 +50,10 @@ export default function Sidebar({
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "ml", label: "Machine Learning", icon: Brain, category: "Domains" },
-    { id: "project", label: currentUser === "harshith" ? "Daily Post" : "AI Project", icon: Rocket, category: "Domains" },
-    { id: "challenge", label: currentUser === "harshith" ? "n8n Learning" : "AI Tools", icon: Wand2, category: "Domains" },
-    { id: "dsa", label: currentUser === "harshith" ? "DSA (Leetcode)" : "DSA Tracker", icon: Terminal, category: "Domains" },
-    { id: "cloud", label: currentUser === "harshith" ? "Python Learning" : "Cloud Learning", icon: Cloud, category: "Domains" },
+    { id: "project", label: currentUser === "harshith" ? "Daily Post" : "AI Project", icon: currentUser === "harshith" ? MessageSquare : Rocket, category: "Domains" },
+    { id: "challenge", label: currentUser === "harshith" ? "n8n Learning" : "AI Tools", icon: currentUser === "harshith" ? Zap : Wand2, category: "Domains" },
+    { id: "dsa", label: currentUser === "harshith" ? "DSA (Leetcode)" : "DSA Tracker", icon: currentUser === "harshith" ? Code2 : Terminal, category: "Domains" },
+    { id: "cloud", label: currentUser === "harshith" ? "Python Learning" : "Cloud Learning", icon: currentUser === "harshith" ? FileCode2 : Cloud, category: "Domains" },
     { id: "calendar", label: "Calendar", icon: Calendar, category: "Tracking" },
     { id: "analytics", label: "Analytics", icon: BarChart3, category: "Tracking" },
     { id: "achievements", label: "Achievements", icon: Award, category: "Gamification" },

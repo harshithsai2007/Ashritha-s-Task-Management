@@ -15,9 +15,10 @@ interface ToolsModuleProps {
   onDeleteDay: (id: string) => void;
   title?: string;
   description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
-export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, title, description }: ToolsModuleProps) {
+export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, title, description, icon: CustomIcon }: ToolsModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -54,7 +55,7 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/40 p-6 rounded-2xl border border-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-amber-600/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
-            <Wand2 className="h-6 w-6" />
+            {CustomIcon ? <CustomIcon className="h-6 w-6" /> : <Wand2 className="h-6 w-6" />}
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-white animate-fade-in">{title || "AI Tools Challenge"}</h2>
@@ -74,7 +75,7 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, 
         /* Empty State */
         <div className="flex flex-col items-center justify-center p-16 bg-[#111827] rounded-[24px] border border-white/5 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-slate-600">
-            <Wand2 className="h-5 w-5" />
+            {CustomIcon ? <CustomIcon className="h-5 w-5" /> : <Wand2 className="h-5 w-5" />}
           </div>
           <span className="text-sm font-semibold text-slate-450">No tasks added yet.</span>
           <p className="text-xs text-slate-500 max-w-xs">Create your very first AI Tools task to start reviewing and logging modern AI helpers.</p>
@@ -208,7 +209,7 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, 
               </button>
 
               <div className="flex items-center gap-2.5 mb-4">
-                <Wand2 className="h-5 w-5 text-amber-550" />
+                {CustomIcon ? <CustomIcon className="h-5 w-5 text-amber-550" /> : <Wand2 className="h-5 w-5 text-amber-550" />}
                 <span className="text-sm font-bold text-white uppercase tracking-wider font-mono">Create Task</span>
               </div>
 

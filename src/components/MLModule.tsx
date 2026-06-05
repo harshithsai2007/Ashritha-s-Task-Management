@@ -15,9 +15,10 @@ interface MLModuleProps {
   onDeleteTopic: (id: string) => void;
   title?: string;
   description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
-export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description }: MLModuleProps) {
+export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description, icon: CustomIcon }: MLModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -54,7 +55,7 @@ export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTo
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/40 p-6 rounded-2xl border border-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <Brain className="h-6 w-6" />
+            {CustomIcon ? <CustomIcon className="h-6 w-6" /> : <Brain className="h-6 w-6" />}
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-white">{title || "Machine Learning"}</h2>
@@ -74,7 +75,7 @@ export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTo
         /* Empty State */
         <div className="flex flex-col items-center justify-center p-16 bg-[#111827] rounded-[24px] border border-white/5 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-slate-600">
-            <Brain className="h-5 w-5" />
+            {CustomIcon ? <CustomIcon className="h-5 w-5" /> : <Brain className="h-5 w-5" />}
           </div>
           <span className="text-sm font-semibold text-slate-450">No tasks added yet.</span>
           <p className="text-xs text-slate-500 max-w-xs">Create your very first Machine Learning journey task to begin tracking your progress.</p>
@@ -208,7 +209,7 @@ export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTo
               </button>
 
               <div className="flex items-center gap-2.5 mb-4">
-                <Brain className="h-5 w-5 text-indigo-400" />
+                {CustomIcon ? <CustomIcon className="h-5 w-5 text-indigo-400" /> : <Brain className="h-5 w-5 text-indigo-400" />}
                 <span className="text-sm font-bold text-white uppercase tracking-wider font-mono">Create Task</span>
               </div>
 

@@ -56,13 +56,35 @@ import {
   User,
   Check,
   ChevronRight,
-  Smile
+  Smile,
+  LayoutDashboard, 
+  Brain, 
+  Rocket, 
+  Wand2, 
+  Terminal, 
+  Cloud, 
+  BarChart3, 
+  Menu, 
+  X,
+  MessageSquare,
+  Code2,
+  FileCode2
 } from "lucide-react";
 
 export default function App() {
   const [currentUser, setCurrentUser] = React.useState<"ashritha" | "harshith" | null>(null);
   const [activeTab, setActiveTab] = React.useState<string>("dashboard");
   const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (currentUser === "ashritha") {
+      document.body.className = "theme-ashritha";
+    } else if (currentUser === "harshith") {
+      document.body.className = "theme-harshith";
+    } else {
+      document.body.className = "theme-login";
+    }
+  }, [currentUser]);
 
   // Default state for Ashritha
   const defaultStateForAshritha: CareerOSState = {
@@ -473,7 +495,7 @@ export default function App() {
     return (
       <div className="h-screen bg-[#0B1120] text-slate-100 flex flex-col items-center justify-center font-sans">
         <RefreshCw className="h-8 w-8 text-indigo-500 animate-spin mb-4" />
-        <span className="text-xs uppercase tracking-widest text-slate-500 font-bold font-mono">Initializing Ashritha's OS...</span>
+        <span className="text-xs uppercase tracking-widest text-slate-500 font-bold font-mono">Initializing {currentUser === "harshith" ? "Harshith" : "Ashritha"}'s OS...</span>
       </div>
     );
   }
@@ -631,10 +653,10 @@ export default function App() {
                     
                     {[
                       { id: "ml", name: "Machine Learning", pct: mlPercent, color: "from-indigo-500 to-indigo-400", count: state.mlTopics.length },
-                      { id: "project", name: "AI Project", pct: projectPercent, color: "from-cyan-500 to-cyan-400", count: state.projectMilestones.length },
-                      { id: "challenge", name: "AI Tools", pct: toolsPercent, color: "from-amber-500 to-amber-400", count: state.aiToolsDays.length },
-                      { id: "dsa", name: "DSA Tracker", pct: dsaPercent, color: "from-purple-500 to-purple-400", count: state.dsaLogs.length },
-                      { id: "cloud", name: "Cloud Learning", pct: cloudPercent, color: "from-sky-500 to-sky-400", count: state.cloudTopics.length }
+                      { id: "project", name: currentUser === "harshith" ? "Daily Post" : "AI Project", pct: projectPercent, color: "from-cyan-500 to-cyan-400", count: state.projectMilestones.length },
+                      { id: "challenge", name: currentUser === "harshith" ? "n8n Learning" : "AI Tools", pct: toolsPercent, color: "from-amber-500 to-amber-400", count: state.aiToolsDays.length },
+                      { id: "dsa", name: currentUser === "harshith" ? "DSA (Leetcode)" : "DSA Tracker", pct: dsaPercent, color: "from-purple-500 to-purple-400", count: state.dsaLogs.length },
+                      { id: "cloud", name: currentUser === "harshith" ? "Python Learning" : "Cloud Learning", pct: cloudPercent, color: "from-sky-500 to-sky-400", count: state.cloudTopics.length }
                     ].map((dom) => (
                       <div 
                         key={dom.id}
@@ -721,6 +743,7 @@ export default function App() {
                 onDeleteMilestone={handleDeleteMilestone}
                 title={currentUser === "harshith" ? "Daily LinkedIn Post" : undefined}
                 description={currentUser === "harshith" ? "Track and manage daily LinkedIn content creation." : undefined}
+                icon={currentUser === "harshith" ? MessageSquare : undefined}
               />
             )}
 
@@ -732,6 +755,7 @@ export default function App() {
                 onDeleteDay={handleDeleteDay}
                 title={currentUser === "harshith" ? "n8n Learning" : undefined}
                 description={currentUser === "harshith" ? "Learn workflow automation and n8n integrations." : undefined}
+                icon={currentUser === "harshith" ? Zap : undefined}
               />
             )}
 
@@ -743,6 +767,7 @@ export default function App() {
                 onDeleteLog={handleDeleteDSALog}
                 title={currentUser === "harshith" ? "DSA (Leetcode)" : undefined}
                 description={currentUser === "harshith" ? "Solve one Leetcode problem daily. Build algorithmic muscle." : undefined}
+                icon={currentUser === "harshith" ? Code2 : undefined}
               />
             )}
 
@@ -754,6 +779,7 @@ export default function App() {
                 onDeleteTopic={handleDeleteCloudTopic}
                 title={currentUser === "harshith" ? "Python Learning" : undefined}
                 description={currentUser === "harshith" ? "Master Python fundamentals, libraries, and scripting." : undefined}
+                icon={currentUser === "harshith" ? FileCode2 : undefined}
               />
             )}
 

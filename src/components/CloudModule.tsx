@@ -15,9 +15,10 @@ interface CloudModuleProps {
   onDeleteTopic: (id: string) => void;
   title?: string;
   description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
-export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description }: CloudModuleProps) {
+export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description, icon: CustomIcon }: CloudModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -54,7 +55,7 @@ export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDelet
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/40 p-6 rounded-2xl border border-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-sky-600/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-            <Cloud className="h-6 w-6" />
+            {CustomIcon ? <CustomIcon className="h-6 w-6" /> : <Cloud className="h-6 w-6" />}
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-white">{title || "Cloud Learning"}</h2>
@@ -74,7 +75,7 @@ export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDelet
         /* Empty State */
         <div className="flex flex-col items-center justify-center p-16 bg-[#111827] rounded-[24px] border border-white/5 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-slate-600">
-            <Cloud className="h-5 w-5" />
+            {CustomIcon ? <CustomIcon className="h-5 w-5" /> : <Cloud className="h-5 w-5" />}
           </div>
           <span className="text-sm font-semibold text-slate-450">No tasks added yet.</span>
           <p className="text-xs text-slate-500 max-w-xs">Create your very first Cloud Learning task to start establishing your distributed network systems.</p>
@@ -208,7 +209,7 @@ export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDelet
               </button>
 
               <div className="flex items-center gap-2.5 mb-4">
-                <Cloud className="h-5 w-5 text-sky-450" />
+                {CustomIcon ? <CustomIcon className="h-5 w-5 text-sky-450" /> : <Cloud className="h-5 w-5 text-sky-450" />}
                 <span className="text-sm font-bold text-white uppercase tracking-wider font-mono">Create Task</span>
               </div>
 
