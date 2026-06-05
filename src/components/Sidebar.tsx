@@ -18,12 +18,13 @@ import {
   Flame, 
   Menu, 
   X,
-  Target
+  Target,
+  LogOut
 } from "lucide-react";
 
 interface SidebarProps {
   currentUser: "ashritha" | "harshith";
-  setCurrentUser: (user: "ashritha" | "harshith") => void;
+  onLogout: () => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
   streakCount: number;
@@ -33,7 +34,7 @@ interface SidebarProps {
 
 export default function Sidebar({ 
   currentUser,
-  setCurrentUser,
+  onLogout,
   activeTab, 
   setActiveTab, 
   streakCount, 
@@ -169,10 +170,11 @@ export default function Sidebar({
         {/* User Card Profile Footer */}
         <div className="p-4 border-t border-slate-900 bg-slate-950/40">
           <button 
-            onClick={() => setCurrentUser(currentUser === "ashritha" ? "harshith" : "ashritha")}
-            className="w-full mb-3 py-2 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer"
+            onClick={onLogout}
+            className="w-full mb-3 py-2 rounded-xl bg-red-600/10 hover:bg-red-600/20 border border-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-2"
           >
-            Switch to {currentUser === "ashritha" ? "Harshith" : "Ashritha"}
+            <LogOut className="h-3 w-3" />
+            Logout
           </button>
           <div className="flex items-center gap-3 p-2 bg-[#111827]/40 rounded-xl border border-slate-900">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md text-xs select-none">

@@ -13,9 +13,11 @@ interface CloudModuleProps {
   onUpdateTopic: (topic: CloudTopic) => void;
   onAddTopic: (topic: Omit<CloudTopic, "id">) => void;
   onDeleteTopic: (id: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic }: CloudModuleProps) {
+export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description }: CloudModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function CloudModule({ topics, onUpdateTopic, onAddTopic, onDelet
             <Cloud className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">Cloud Learning</h2>
-            <p className="text-xs text-slate-400">Architect scalable, cloud-native pipelines (AWS, Azure, GCP).</p>
+            <h2 className="text-xl font-bold tracking-tight text-white">{title || "Cloud Learning"}</h2>
+            <p className="text-xs text-slate-400">{description || "Architect scalable, cloud-native pipelines (AWS, Azure, GCP)."}</p>
           </div>
         </div>
         <button

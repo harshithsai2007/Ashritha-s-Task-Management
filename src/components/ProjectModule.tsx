@@ -13,9 +13,11 @@ interface ProjectModuleProps {
   onUpdateMilestone: (milestone: ProjectMilestone) => void;
   onAddMilestone: (milestone: Omit<ProjectMilestone, "id">) => void;
   onDeleteMilestone: (id: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function ProjectModule({ milestones, onUpdateMilestone, onAddMilestone, onDeleteMilestone }: ProjectModuleProps) {
+export default function ProjectModule({ milestones, onUpdateMilestone, onAddMilestone, onDeleteMilestone, title, description }: ProjectModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function ProjectModule({ milestones, onUpdateMilestone, onAddMile
             <Rocket className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">AI Project Road</h2>
-            <p className="text-xs text-slate-400">Add tasks and build end-to-end production AI software.</p>
+            <h2 className="text-xl font-bold tracking-tight text-white">{title || "AI Project Road"}</h2>
+            <p className="text-xs text-slate-400">{description || "Add tasks and build end-to-end production AI software."}</p>
           </div>
         </div>
         <button

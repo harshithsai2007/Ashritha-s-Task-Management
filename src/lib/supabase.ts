@@ -20,7 +20,8 @@ export let mongoConnected = false;
  */
 export async function saveStateToCloud(state: CareerOSState, userId: string = "ashritha") {
   // Always save locally for double resilience
-  localStorage.setItem("ai_os_state_" + userId, JSON.stringify(state));
+  const storageKey = userId === "harshith" ? "ai_os_v2_harshith" : "ai_os_state_ashritha";
+  localStorage.setItem(storageKey, JSON.stringify(state));
 
   try {
     const res = await fetch("/api/state?user=" + userId, {
@@ -44,7 +45,8 @@ export async function saveStateToCloud(state: CareerOSState, userId: string = "a
  * Fetches the user's state from MongoDB (via Express backend) or falls back to local storage.
  */
 export async function loadStateFromCloud(defaultState: CareerOSState, userId: string = "ashritha"): Promise<CareerOSState> {
-  const localCached = localStorage.getItem("ai_os_state_" + userId);
+  const storageKey = userId === "harshith" ? "ai_os_v2_harshith" : "ai_os_state_ashritha";
+  const localCached = localStorage.getItem(storageKey);
   let parsedLocal: CareerOSState | null = null;
   if (localCached) {
     try {
@@ -96,7 +98,8 @@ export async function loadStateFromCloud(defaultState: CareerOSState, userId: st
 
   if (cloudState) {
     // Save the cloud state locally to keep things in sync
-    localStorage.setItem("ai_os_state_" + userId, JSON.stringify(cloudState));
+    const storageKey = userId === "harshith" ? "ai_os_v2_harshith" : "ai_os_state_ashritha";
+    localStorage.setItem(storageKey, JSON.stringify(cloudState));
     return cloudState;
   }
 

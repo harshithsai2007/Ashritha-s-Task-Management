@@ -13,9 +13,11 @@ interface MLModuleProps {
   onUpdateTopic: (topic: MLTopic) => void;
   onAddTopic: (topic: Omit<MLTopic, "id">) => void;
   onDeleteTopic: (id: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic }: MLModuleProps) {
+export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTopic, title, description }: MLModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function MLModule({ topics, onUpdateTopic, onAddTopic, onDeleteTo
             <Brain className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">Machine Learning</h2>
-            <p className="text-xs text-slate-400">Design models, training logic, and mathematical intuition.</p>
+            <h2 className="text-xl font-bold tracking-tight text-white">{title || "Machine Learning"}</h2>
+            <p className="text-xs text-slate-400">{description || "Design models, training logic, and mathematical intuition."}</p>
           </div>
         </div>
         <button

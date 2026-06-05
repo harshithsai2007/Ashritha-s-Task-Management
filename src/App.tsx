@@ -5,6 +5,7 @@
 
 import React from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
+import Login from "./components/Login";
 import Sidebar from "./components/Sidebar";
 import { 
   initialMLTopics, 
@@ -59,7 +60,7 @@ import {
 } from "lucide-react";
 
 export default function App() {
-  const [currentUser, setCurrentUser] = React.useState<"ashritha" | "harshith">("ashritha");
+  const [currentUser, setCurrentUser] = React.useState<"ashritha" | "harshith" | null>(null);
   const [activeTab, setActiveTab] = React.useState<string>("dashboard");
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -96,6 +97,7 @@ export default function App() {
 
   // Load initial state from Supabase / localStorage on mount and poll for real-time updates
   React.useEffect(() => {
+    if (!currentUser) return;
     setIsLoading(true);
     const defaultState = currentUser === "ashritha" ? defaultStateForAshritha : defaultStateForHarshith;
 
@@ -462,6 +464,11 @@ export default function App() {
     setShowConfirmReset(false);
   };
 
+  // Login gate: show login screen if not authenticated
+  if (!currentUser) {
+    return <Login onLogin={(user) => setCurrentUser(user)} />;
+  }
+
   if (isLoading) {
     return (
       <div className="h-screen bg-[#0B1120] text-slate-100 flex flex-col items-center justify-center font-sans">
@@ -486,7 +493,7 @@ export default function App() {
       {/* Sidebar navigation */}
       <Sidebar 
         currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
+        onLogout={() => { setCurrentUser(null); setActiveTab("dashboard"); }}
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         streakCount={currentStreak}
@@ -700,7 +707,9 @@ export default function App() {
                 topics={state.mlTopics} 
                 onUpdateTopic={handleUpdateMLTopic} 
                 onAddTopic={handleAddMLTopic} 
-                onDeleteTopic={handleDeleteMLTopic} 
+                onDeleteTopic={handleDeleteMLTopic}
+                title={currentUser === "harshith" ? "Machine Learning" : undefined}
+                description={currentUser === "harshith" ? "Learn ML concepts, frameworks, and build intelligent systems." : undefined}
               />
             )}
 
@@ -710,6 +719,8 @@ export default function App() {
                 onUpdateMilestone={handleUpdateMilestone} 
                 onAddMilestone={handleAddMilestone}
                 onDeleteMilestone={handleDeleteMilestone}
+                title={currentUser === "harshith" ? "Daily LinkedIn Post" : undefined}
+                description={currentUser === "harshith" ? "Track and manage daily LinkedIn content creation." : undefined}
               />
             )}
 
@@ -719,6 +730,8 @@ export default function App() {
                 onUpdateDay={handleUpdateDay} 
                 onAddDay={handleAddDay}
                 onDeleteDay={handleDeleteDay}
+                title={currentUser === "harshith" ? "n8n Learning" : undefined}
+                description={currentUser === "harshith" ? "Learn workflow automation and n8n integrations." : undefined}
               />
             )}
 
@@ -727,7 +740,9 @@ export default function App() {
                 logs={state.dsaLogs} 
                 onAddLog={handleAddDSALog} 
                 onUpdateLog={handleUpdateDSALog}
-                onDeleteLog={handleDeleteDSALog} 
+                onDeleteLog={handleDeleteDSALog}
+                title={currentUser === "harshith" ? "DSA (Leetcode)" : undefined}
+                description={currentUser === "harshith" ? "Solve one Leetcode problem daily. Build algorithmic muscle." : undefined}
               />
             )}
 
@@ -736,7 +751,9 @@ export default function App() {
                 topics={state.cloudTopics} 
                 onUpdateTopic={handleUpdateCloudTopic} 
                 onAddTopic={handleAddCloudTopic} 
-                onDeleteTopic={handleDeleteCloudTopic} 
+                onDeleteTopic={handleDeleteCloudTopic}
+                title={currentUser === "harshith" ? "Python Learning" : undefined}
+                description={currentUser === "harshith" ? "Master Python fundamentals, libraries, and scripting." : undefined}
               />
             )}
 

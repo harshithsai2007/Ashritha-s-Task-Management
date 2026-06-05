@@ -13,9 +13,11 @@ interface DSAModuleProps {
   onAddLog: (log: Omit<DSALog, "id">) => void;
   onUpdateLog: (log: DSALog) => void;
   onDeleteLog: (id: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog }: DSAModuleProps) {
+export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog, title, description }: DSAModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function DSAModule({ logs, onAddLog, onUpdateLog, onDeleteLog }: 
             <Terminal className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">DSA Tracker</h2>
-            <p className="text-xs text-slate-400">Master algorithms, key concepts, and structure logic.</p>
+            <h2 className="text-xl font-bold tracking-tight text-white">{title || "DSA Tracker"}</h2>
+            <p className="text-xs text-slate-400">{description || "Master algorithms, key concepts, and structure logic."}</p>
           </div>
         </div>
         <button

@@ -13,9 +13,11 @@ interface ToolsModuleProps {
   onUpdateDay: (day: FIToolDay) => void;
   onAddDay: (day: Omit<FIToolDay, "id">) => void;
   onDeleteDay: (id: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay }: ToolsModuleProps) {
+export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay, title, description }: ToolsModuleProps) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function ToolsModule({ days, onUpdateDay, onAddDay, onDeleteDay }
             <Wand2 className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white animate-fade-in">AI Tools Challenge</h2>
-            <p className="text-xs text-slate-400">Discover and log modern AI tools, agents, and generative libraries.</p>
+            <h2 className="text-xl font-bold tracking-tight text-white animate-fade-in">{title || "AI Tools Challenge"}</h2>
+            <p className="text-xs text-slate-400">{description || "Discover and log modern AI tools, agents, and generative libraries."}</p>
           </div>
         </div>
         <button
