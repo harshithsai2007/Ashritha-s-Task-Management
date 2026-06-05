@@ -507,7 +507,7 @@ export default function App() {
       <div 
         className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 opacity-100"
         style={{
-          background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.12), transparent 80%)`,
+          background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, ${currentUser === 'ashritha' ? 'rgba(219, 112, 147, 0.25)' : 'rgba(255, 253, 208, 0.25)'}, transparent 80%)`,
         }}
       />
       
@@ -652,11 +652,11 @@ export default function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
                     
                     {[
-                      { id: "ml", name: "Machine Learning", pct: mlPercent, color: "from-indigo-500 to-indigo-400", count: state.mlTopics.length },
-                      { id: "project", name: currentUser === "harshith" ? "Daily Post" : "AI Project", pct: projectPercent, color: "from-cyan-500 to-cyan-400", count: state.projectMilestones.length },
-                      { id: "challenge", name: currentUser === "harshith" ? "n8n Learning" : "AI Tools", pct: toolsPercent, color: "from-amber-500 to-amber-400", count: state.aiToolsDays.length },
-                      { id: "dsa", name: currentUser === "harshith" ? "DSA (Leetcode)" : "DSA Tracker", pct: dsaPercent, color: "from-purple-500 to-purple-400", count: state.dsaLogs.length },
-                      { id: "cloud", name: currentUser === "harshith" ? "Python Learning" : "Cloud Learning", pct: cloudPercent, color: "from-sky-500 to-sky-400", count: state.cloudTopics.length }
+                      { id: "ml", name: "Machine Learning", pct: mlPercent, count: state.mlTopics.length },
+                      { id: "project", name: currentUser === "harshith" ? "Daily Post" : "AI Project", pct: projectPercent, count: state.projectMilestones.length },
+                      { id: "tools", name: currentUser === "harshith" ? "n8n Learning" : "30 Days Tools", pct: toolsPercent, count: toolsCount },
+                      { id: "dsa", name: currentUser === "harshith" ? "DSA (Leetcode)" : "Daily DSA Tracker", pct: dsaPercent, count: dsaCount },
+                      { id: "cloud", name: currentUser === "harshith" ? "Python Learning" : "Cloud Computing", pct: cloudPercent, count: state.cloudTopics.length },
                     ].map((dom) => (
                       <div 
                         key={dom.id}
@@ -669,8 +669,8 @@ export default function App() {
                             {dom.count === 0 ? "0%" : `${Math.round(dom.pct)}%`}
                           </div>
                           <div className="text-[9px] text-slate-500 font-mono mb-2 font-bold uppercase">{dom.count} total tasks</div>
-                          <div className="h-1 bg-slate-950 rounded-full overflow-hidden">
-                            <div className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full animate-pulse" style={{ width: `${dom.pct}%` }} />
+                          <div className="h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                            <div className="h-full rounded-full animate-pulse" style={{ width: `${dom.pct}%` }} />
                           </div>
                         </div>
                       </div>
@@ -815,17 +815,17 @@ export default function App() {
                         // Count completions on this day
                         const dayCompletions = completedTasks.filter(t => t.dateCompleted === dateCode).length;
 
-                        let colorStyle = "bg-slate-950 border-slate-900 hover:border-slate-800 text-slate-600";
-                        if (dayCompletions === 1) colorStyle = "bg-indigo-950/80 border-indigo-900/50 text-indigo-300";
-                        else if (dayCompletions === 2) colorStyle = "bg-indigo-800/80 border-indigo-700/60 text-indigo-100";
-                        else if (dayCompletions >= 3) colorStyle = "bg-cyan-500/80 border-cyan-400/50 text-slate-950 font-black shadow-[0_0_8px_rgba(34,211,238,0.25)]";
+                        let calClass = "cal-day-0";
+                        if (dayCompletions === 1) calClass = "cal-day-1";
+                        else if (dayCompletions === 2) calClass = "cal-day-2";
+                        else if (dayCompletions >= 3) calClass = "cal-day-3";
 
                         return (
                           <div
                             key={dayNum}
                             onClick={() => setSelectedCalendarDay(dayNum)}
-                            className={`aspect-square rounded-xl border flex flex-col justify-between p-2 font-mono text-xs font-semibold cursor-pointer transition-all select-none ${colorStyle} ${
-                              selectedCalendarDay === dayNum ? "ring-2 ring-indigo-500 scale-[1.02]" : ""
+                            className={`aspect-square rounded-xl border flex flex-col justify-between p-2 font-mono text-xs font-semibold cursor-pointer transition-all select-none ${calClass} ${
+                              selectedCalendarDay === dayNum ? "scale-[1.02]" : ""
                             }`}
                           >
                             <span>{dayNum}</span>
