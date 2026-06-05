@@ -59,7 +59,11 @@ export async function loadStateFromCloud(defaultState: CareerOSState, userId: st
       const data = await res.json();
       if (data && data.state) {
         mongoConnected = true;
-        cloudState = data.state as CareerOSState;
+        let unwrapped = data.state;
+        if (unwrapped.state) {
+          unwrapped = unwrapped.state; // Safety fallback for nested state
+        }
+        cloudState = unwrapped as CareerOSState;
       }
     }
   } catch (err) {
