@@ -5,7 +5,7 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Lock, ArrowLeft, Shield } from "lucide-react";
+import { Lock, ArrowLeft } from "lucide-react";
 
 interface LoginProps {
   onLogin: (user: "ashritha" | "harshith") => void;
@@ -38,12 +38,22 @@ export default function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ backgroundColor: "#F0E7D5" }}>
-      {/* Warm ambient background blobs */}
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #FDFBFB 0%, #EBEDEE 100%)" }}>
+      {/* Animated 3D Glass Orbs Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: "rgba(191,126,129,0.15)" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: "rgba(127,1,31,0.10)", animationDelay: "1s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl" style={{ backgroundColor: "rgba(33,40,66,0.06)" }} />
+        <motion.div 
+          animate={{ x: [0, 50, 0], y: [0, -50, 0], rotate: [0, 90, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[80px] opacity-60" 
+          style={{ background: "linear-gradient(135deg, #FFB3BA, #FFDFD3)" }} 
+        />
+        <motion.div 
+          animate={{ x: [0, -50, 0], y: [0, 50, 0], rotate: [0, -90, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[100px] opacity-40" 
+          style={{ background: "linear-gradient(135deg, #A1C4FD, #C2E9FB)" }} 
+        />
+        <div className="absolute inset-0 backdrop-blur-[60px] z-0" />
       </div>
 
       <AnimatePresence mode="wait">
@@ -51,59 +61,113 @@ export default function Login({ onLogin }: LoginProps) {
           /* Profile Selection Screen */
           <motion.div
             key="profiles"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative z-10 text-center"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, y: -30, filter: "blur(10px)" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 flex flex-col items-center"
           >
-            {/* Header */}
-            <div className="mb-10">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "rgba(33,40,66,0.08)", border: "1.5px solid rgba(33,40,66,0.15)" }}>
-                <Shield className="h-7 w-7" style={{ color: "#212842" }} />
-              </div>
-              <h1 className="text-3xl font-black tracking-tight mb-2" style={{ color: "#212842" }}>
+            {/* Header with Cute Logo */}
+            <div className="mb-12 text-center">
+              <motion.div 
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
+                className="w-24 h-24 mx-auto mb-6 rounded-[2rem] overflow-hidden flex items-center justify-center p-1"
+                style={{ 
+                  background: "rgba(255, 255, 255, 0.4)",
+                  border: "2px solid rgba(255, 255, 255, 0.8)",
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.08), inset 0 2px 10px rgba(255,255,255,0.8)"
+                }}
+              >
+                <img 
+                  src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" 
+                  alt="Cute Profile Logo" 
+                  className="w-full h-full object-cover rounded-[1.75rem] shadow-sm"
+                />
+              </motion.div>
+              <motion.h1 
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-4xl font-black tracking-tight mb-2 text-slate-800"
+              >
                 Welcome Back
-              </h1>
-              <p className="text-sm" style={{ color: "#6b7280" }}>
-                Choose your profile to continue
-              </p>
+              </motion.h1>
+              <motion.p 
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-slate-500 font-medium"
+              >
+                Who's logging in today?
+              </motion.p>
             </div>
 
             {/* Profile Cards */}
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-6">
               {/* Ashritha Profile Card */}
               <motion.button
-                whileHover={{ scale: 1.04, y: -4 }}
-                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, type: "spring" }}
+                whileHover={{ scale: 1.05, y: -5, boxShadow: "0 25px 50px rgba(191,126,129,0.15)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("ashritha22")}
-                className="group w-52 p-6 rounded-3xl cursor-pointer text-center transition-all duration-300"
-                style={{ backgroundColor: "#fff0ee", border: "1.5px solid rgba(191,126,129,0.25)" }}
+                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
+                style={{ 
+                  background: "rgba(255, 255, 255, 0.6)", 
+                  border: "1px solid rgba(255, 255, 255, 0.9)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.04), inset 0 1px 2px rgba(255,255,255,0.8)"
+                }}
               >
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg" style={{ background: "linear-gradient(135deg, #FFB3BA, #BF7E81)" }}>
-                  <span className="text-2xl font-black text-white select-none">A</span>
-                </div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: "#212842" }}>ashritha22</h3>
-                <p className="text-[11px] font-medium" style={{ color: "#9C6568" }}>AI Engineer</p>
-                <div className="mt-4 py-1.5 px-4 rounded-full text-[10px] font-bold uppercase tracking-widest" style={{ backgroundColor: "rgba(191,126,129,0.12)", border: "1px solid rgba(191,126,129,0.25)", color: "#BF7E81" }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-100/30 to-rose-100/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <motion.div 
+                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10" 
+                  style={{ 
+                    background: "linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)",
+                    boxShadow: "0 15px 30px rgba(255, 154, 158, 0.3), inset 0 2px 4px rgba(255,255,255,0.4)"
+                  }}
+                >
+                  <span className="text-3xl font-black text-white select-none drop-shadow-sm">A</span>
+                </motion.div>
+                <h3 className="text-xl font-bold mb-1 text-slate-800 relative z-10">ashritha22</h3>
+                <p className="text-xs font-semibold text-rose-400 mb-6 relative z-10">AI Engineer</p>
+                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10" 
+                     style={{ background: "rgba(255, 154, 158, 0.15)", color: "#D81B60" }}>
                   Select
                 </div>
               </motion.button>
 
               {/* Harshith Profile Card */}
               <motion.button
-                whileHover={{ scale: 1.04, y: -4 }}
-                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5, type: "spring" }}
+                whileHover={{ scale: 1.05, y: -5, boxShadow: "0 25px 50px rgba(37,99,235,0.15)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("harshith22")}
-                className="group w-52 p-6 rounded-3xl cursor-pointer text-center transition-all duration-300"
-                style={{ backgroundColor: "#fdf5ee", border: "1.5px solid rgba(127,1,31,0.20)" }}
+                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
+                style={{ 
+                  background: "rgba(255, 255, 255, 0.6)", 
+                  border: "1px solid rgba(255, 255, 255, 0.9)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.04), inset 0 1px 2px rgba(255,255,255,0.8)"
+                }}
               >
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg" style={{ background: "linear-gradient(135deg, #7F011F, #a81a38)" }}>
-                  <span className="text-2xl font-black text-white select-none">H</span>
-                </div>
-                <h3 className="text-lg font-bold mb-1" style={{ color: "#212842" }}>harshith22</h3>
-                <p className="text-[11px] font-medium" style={{ color: "#7F011F" }}>System Architect</p>
-                <div className="mt-4 py-1.5 px-4 rounded-full text-[10px] font-bold uppercase tracking-widest" style={{ backgroundColor: "rgba(127,1,31,0.10)", border: "1px solid rgba(127,1,31,0.20)", color: "#7F011F" }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 to-indigo-100/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <motion.div 
+                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10" 
+                  style={{ 
+                    background: "linear-gradient(135deg, #2563EB, #DC2626)",
+                    boxShadow: "0 15px 30px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255,255,255,0.4)"
+                  }}
+                >
+                  <span className="text-3xl font-black text-white select-none drop-shadow-sm">H</span>
+                </motion.div>
+                <h3 className="text-xl font-bold mb-1 text-slate-800 relative z-10">harshith22</h3>
+                <p className="text-xs font-semibold text-blue-500 mb-6 relative z-10">System Architect</p>
+                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10" 
+                     style={{ background: "rgba(37, 99, 235, 0.1)", color: "#2563EB" }}>
                   Select
                 </div>
               </motion.button>
@@ -113,98 +177,108 @@ export default function Login({ onLogin }: LoginProps) {
           /* Password Entry Screen */
           <motion.div
             key="password"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 w-full max-w-sm"
           >
-            <form onSubmit={handleSubmit} className="text-center">
-              {/* Back button */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedProfile(null);
-                  setPassword("");
-                  setError("");
-                }}
-                className="absolute -top-12 left-0 flex items-center gap-1.5 text-xs transition-colors cursor-pointer"
-                style={{ color: "#6b7280" }}
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Back to profiles
-              </button>
+            <div className="p-8 rounded-[2.5rem]" style={{ 
+              background: "rgba(255, 255, 255, 0.7)", 
+              backdropFilter: "blur(24px)",
+              border: "1px solid rgba(255, 255, 255, 0.9)",
+              boxShadow: "0 30px 60px rgba(0,0,0,0.08), inset 0 1px 2px rgba(255,255,255,0.8)"
+            }}>
+              <form onSubmit={handleSubmit} className="text-center relative">
+                {/* Back button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedProfile(null);
+                    setPassword("");
+                    setError("");
+                  }}
+                  className="absolute -top-3 -left-2 flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400 hover:text-slate-700 hover:scale-110 transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </button>
 
-              {/* Avatar */}
-              <div className={`w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center shadow-lg`}
-                style={{
-                  background: selectedProfile === "ashritha22"
-                    ? "linear-gradient(135deg, #FFB3BA, #BF7E81)"
-                    : "linear-gradient(135deg, #7F011F, #a81a38)"
-                }}
-              >
-                <span className="text-2xl font-black text-white select-none">
-                  {selectedProfile === "ashritha22" ? "A" : "H"}
-                </span>
-              </div>
+                {/* Avatar */}
+                <motion.div 
+                  initial={{ y: -20 }} animate={{ y: 0 }}
+                  className="w-24 h-24 mx-auto mb-6 rounded-2xl flex items-center justify-center"
+                  style={{
+                    background: selectedProfile === "ashritha22"
+                      ? "linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)"
+                      : "linear-gradient(135deg, #2563EB, #DC2626)",
+                    boxShadow: selectedProfile === "ashritha22"
+                      ? "0 20px 40px rgba(255, 154, 158, 0.4), inset 0 2px 4px rgba(255,255,255,0.5)"
+                      : "0 20px 40px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255,255,255,0.5)"
+                  }}
+                >
+                  <span className="text-4xl font-black text-white select-none drop-shadow-md">
+                    {selectedProfile === "ashritha22" ? "A" : "H"}
+                  </span>
+                </motion.div>
 
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#212842" }}>{selectedProfile}</h2>
-              <p className="text-xs mb-8" style={{ color: "#6b7280" }}>Enter your password to continue</p>
+                <h2 className="text-2xl font-black mb-1 text-slate-800 tracking-tight">{selectedProfile}</h2>
+                <p className="text-sm mb-8 text-slate-500 font-medium">Enter your password to unlock</p>
 
-              {/* Password input */}
-              <motion.div
-                animate={isShaking ? { x: [0, -10, 10, -10, 10, 0] } : {}}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="relative mb-4">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "#9ca3af" }} />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setError("");
-                    }}
-                    placeholder="Password"
-                    autoFocus
-                    className="w-full py-3.5 pl-11 pr-4 rounded-2xl text-sm outline-none transition-all"
-                    style={{
-                      backgroundColor: "rgba(255,255,255,0.7)",
-                      border: "1.5px solid rgba(33,40,66,0.15)",
-                      color: "#212842",
-                    }}
-                    id="login-password-input"
-                  />
-                </div>
-              </motion.div>
+                {/* Password input */}
+                <motion.div
+                  animate={isShaking ? { x: [0, -10, 10, -10, 10, 0] } : {}}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="relative mb-6">
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setError("");
+                      }}
+                      placeholder="Password"
+                      autoFocus
+                      className="w-full py-4 pl-14 pr-5 rounded-[1.5rem] text-base outline-none transition-all focus:ring-4 placeholder-slate-400"
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.9)",
+                        border: "1px solid rgba(226, 232, 240, 0.8)",
+                        color: "#1E293B",
+                        boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
+                      }}
+                    />
+                  </div>
+                </motion.div>
 
-              {/* Error message */}
-              <AnimatePresence>
-                {error && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    className="text-xs mb-4 font-medium"
-                    style={{ color: "#dc2626" }}
-                  >
-                    {error}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+                {/* Error message */}
+                <AnimatePresence>
+                  {error && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-sm mb-6 font-bold text-red-500"
+                    >
+                      {error}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
 
-              {/* Submit button */}
-              <button
-                type="submit"
-                className="w-full py-3.5 rounded-2xl text-white text-sm font-bold tracking-wide transition-all cursor-pointer shadow-lg"
-                style={{
-                  backgroundColor: selectedProfile === "ashritha22" ? "#BF7E81" : "#7F011F",
-                }}
-                id="login-submit-button"
-              >
-                Sign In
-              </button>
-            </form>
+                {/* Submit button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  className="w-full py-4 rounded-[1.5rem] text-white text-base font-bold tracking-wide transition-all shadow-xl"
+                  style={{
+                    background: selectedProfile === "ashritha22" ? "linear-gradient(135deg, #FF9A9E, #D81B60)" : "linear-gradient(135deg, #2563EB, #DC2626)",
+                  }}
+                >
+                  Sign In to Dashboard
+                </motion.button>
+              </form>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

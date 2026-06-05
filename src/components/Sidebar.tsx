@@ -4,6 +4,7 @@
  */
 
 import React from "react";
+import { motion } from "motion/react";
 import { 
   LayoutDashboard, 
   Brain, 
@@ -93,10 +94,24 @@ export default function Sidebar({
       >
         <div className="p-6">
           {/* Branded Logo Header */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-              <Target className="h-5 w-5 animate-pulse" />
-            </div>
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3 mb-8"
+          >
+            {currentUser === "ashritha" ? (
+              <motion.div 
+                whileHover={{ rotate: 10, scale: 1.1 }}
+                className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg border-2 border-white/80"
+              >
+                <img src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" alt="Logo" className="w-full h-full object-cover" />
+              </motion.div>
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                <Target className="h-5 w-5 animate-pulse" />
+              </div>
+            )}
             <div>
               <h1 className="text-sm font-bold tracking-tight text-white leading-tight">
                 {currentUser === "ashritha" ? "Ashritha" : "Harshith"}
@@ -105,7 +120,7 @@ export default function Sidebar({
                 {currentUser === "ashritha" ? "(hi cutie ~harshith)" : "(the architect)"}
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Real Metrics Bar */}
           <div className="grid grid-cols-2 gap-2 mb-6 p-3 bg-slate-950/60 rounded-xl border border-slate-900">
@@ -180,17 +195,26 @@ export default function Sidebar({
             <LogOut className="h-3 w-3" />
             Logout
           </button>
-          <div className="flex items-center gap-3 p-2 bg-[#111827]/40 rounded-xl border border-slate-900">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md text-xs select-none">
-              {currentUser === "ashritha" ? "ASH" : "HAR"}
-            </div>
+          <motion.div 
+            whileHover={{ scale: 1.02, y: -2 }}
+            className="flex items-center gap-3 p-2 bg-[#111827]/40 rounded-xl border border-slate-900 cursor-pointer shadow-sm transition-all"
+          >
+            {currentUser === "ashritha" ? (
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200/50 shadow-md flex-shrink-0">
+                <img src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" alt="Profile" className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md text-xs select-none">
+                HAR
+              </div>
+            )}
             <div className="min-w-0 flex-1">
               <h4 className="text-xs font-semibold text-slate-200 truncate">{currentUser === "ashritha" ? "Ashritha" : "Harshith"}</h4>
-              <p className="text-[10px] text-indigo-400 font-mono tracking-tight font-semibold truncate leading-none">
+              <p className="text-[10px] text-indigo-400 font-mono tracking-tight font-semibold truncate leading-none mt-0.5">
                 {currentUser === "ashritha" ? "AI Engineer" : "System Architect"}
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </aside>
     </>
