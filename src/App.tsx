@@ -654,8 +654,8 @@ export default function App() {
                     {[
                       { id: "ml", name: "Machine Learning", pct: mlPercent, count: state.mlTopics.length },
                       { id: "project", name: currentUser === "harshith" ? "Daily Post" : "AI Project", pct: projectPercent, count: state.projectMilestones.length },
-                      { id: "tools", name: currentUser === "harshith" ? "n8n Learning" : "30 Days Tools", pct: toolsPercent, count: toolsCount },
-                      { id: "dsa", name: currentUser === "harshith" ? "DSA (Leetcode)" : "Daily DSA Tracker", pct: dsaPercent, count: dsaCount },
+                      { id: "tools", name: currentUser === "harshith" ? "n8n Learning" : "30 Days Tools", pct: toolsPercent, count: state.aiToolsDays.length },
+                      { id: "dsa", name: currentUser === "harshith" ? "DSA (Leetcode)" : "Daily DSA Tracker", pct: dsaPercent, count: state.dsaLogs.length },
                       { id: "cloud", name: currentUser === "harshith" ? "Python Learning" : "Cloud Computing", pct: cloudPercent, count: state.cloudTopics.length },
                     ].map((dom) => (
                       <div 
