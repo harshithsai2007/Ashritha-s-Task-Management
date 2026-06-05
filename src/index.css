@@ -43,73 +43,152 @@ body {
 }
 
 
+/* ============================================
+   DYNAMIC THEME SYSTEM
+   ============================================ */
 
-/* --- DYNAMIC THEME SYSTEM --- */
-.theme-login {
-  --bg-main: #F0E7D5;
-  --bg-panel: #E8DECC;
-  --text-main: #212842;
-  --text-sub: #4A5568;
-  --border-color: rgba(33, 40, 66, 0.1);
-  background-color: var(--bg-main) !important;
+/* ---------- HARSHITH THEME ----------
+   Palette: #7F011F (deep crimson) + #F5EBD0 (warm cream)
+   Approach: dark crimson bg, cream text, translucent glass panels
+*/
+body.theme-harshith {
+  background-color: #7F011F !important;
+  color: #F5EBD0;
 }
 
-.theme-harshith {
-  --bg-main: #7F011F;
-  --bg-panel: #6B0018;
-  --text-main: #F5EBD0;
-  --text-sub: #DCCFA8;
-  --border-color: rgba(245, 235, 208, 0.1);
-  background-color: var(--bg-main) !important;
+/* Scrollbar */
+body.theme-harshith ::-webkit-scrollbar-track { background: #7F011F; }
+body.theme-harshith ::-webkit-scrollbar-thumb { background: rgba(245,235,208,0.15); }
+body.theme-harshith ::-webkit-scrollbar-thumb:hover { background: rgba(245,235,208,0.25); }
+
+/* Main dark bg areas → crimson main */
+body.theme-harshith .bg-\[\#0B1120\] {
+  background-color: #7F011F !important;
 }
 
-.theme-ashritha {
-  --bg-main: #FFE4E1;
-  --bg-panel: #F5D3D0; 
-  --text-main: #BF7E81;
-  --text-sub: #9C6568;
-  --border-color: rgba(191, 126, 129, 0.15);
-  background-color: var(--bg-main) !important;
+/* Panel/card areas → glass overlay on crimson */
+body.theme-harshith .bg-\[\#111827\] {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(245, 235, 208, 0.10) !important;
 }
 
-/* Base Overrides for Themes */
-body.theme-login *, body.theme-harshith *, body.theme-ashritha * {
-  border-color: var(--border-color);
+/* Darker nested panel areas */
+body.theme-harshith .bg-slate-950\/45,
+body.theme-harshith .bg-slate-950\/60,
+body.theme-harshith .bg-slate-950\/20,
+body.theme-harshith .bg-slate-950\/40 {
+  background-color: rgba(0, 0, 0, 0.15) !important;
 }
 
-body.theme-login .bg-\[\#0B1120\],
-body.theme-harshith .bg-\[\#0B1120\],
+/* Text: white & slate → cream hierarchy */
+body.theme-harshith .text-white { color: #F5EBD0 !important; }
+body.theme-harshith .text-slate-100,
+body.theme-harshith .text-slate-200 { color: #F5EBD0 !important; }
+body.theme-harshith .text-slate-400 { color: rgba(245,235,208,0.60) !important; }
+body.theme-harshith .text-slate-500 { color: rgba(245,235,208,0.40) !important; }
+
+/* Accent colours → muted cream tint instead of indigo/cyan */
+body.theme-harshith .text-indigo-400 { color: rgba(245,235,208,0.75) !important; }
+body.theme-harshith .text-cyan-400    { color: rgba(245,235,208,0.75) !important; }
+
+/* Borders → subtle cream */
+body.theme-harshith .border-white\/5,
+body.theme-harshith .border-slate-900,
+body.theme-harshith .border-slate-800 {
+  border-color: rgba(245, 235, 208, 0.10) !important;
+}
+
+/* Amber streak — keep warm, it fits the palette */
+/* (no override needed — amber on crimson looks great) */
+
+/* Active nav button stays indigo — fine as accent pop */
+
+
+/* ---------- ASHRITHA THEME ----------
+   Palette: #FFE4E1 (soft blush) + #BF7E81 (dusty rose)
+   Approach: blush bg, dark rose-brown text, frosted white-glass panels
+*/
+body.theme-ashritha {
+  background-color: #FFE4E1 !important;
+  color: #3D1A1B;
+}
+
+/* Scrollbar */
+body.theme-ashritha ::-webkit-scrollbar-track { background: #FFE4E1; }
+body.theme-ashritha ::-webkit-scrollbar-thumb { background: rgba(191,126,129,0.30); }
+body.theme-ashritha ::-webkit-scrollbar-thumb:hover { background: rgba(191,126,129,0.50); }
+
+/* Main dark bg areas → blush main */
 body.theme-ashritha .bg-\[\#0B1120\] {
-  background-color: var(--bg-main) !important;
+  background-color: #FFE4E1 !important;
 }
 
-body.theme-login .bg-\[\#111827\],
-body.theme-harshith .bg-\[\#111827\],
+/* Panel/card areas → frosted white on blush */
 body.theme-ashritha .bg-\[\#111827\] {
-  background-color: var(--bg-panel) !important;
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  border-color: rgba(191, 126, 129, 0.18) !important;
+  backdrop-filter: blur(8px);
 }
 
-/* Safely override Text colors (only for specific text colors, avoiding inverted button text) */
-body.theme-login .text-white:not(button .text-white):not(.bg-indigo-600 .text-white),
-body.theme-harshith .text-white:not(button .text-white):not(.bg-indigo-600 .text-white),
-body.theme-ashritha .text-white:not(button .text-white):not(.bg-indigo-600 .text-white) {
-  color: var(--text-main) !important;
+/* Darker nested panel areas */
+body.theme-ashritha .bg-slate-950\/45,
+body.theme-ashritha .bg-slate-950\/60,
+body.theme-ashritha .bg-slate-950\/20,
+body.theme-ashritha .bg-slate-950\/40 {
+  background-color: rgba(191, 126, 129, 0.08) !important;
 }
 
-body.theme-login .text-slate-400, body.theme-login .text-slate-500,
-body.theme-harshith .text-slate-400, body.theme-harshith .text-slate-500,
-body.theme-ashritha .text-slate-400, body.theme-ashritha .text-slate-500 {
-  color: var(--text-sub) !important;
+/* Text: white & slate → dark rose-brown hierarchy */
+body.theme-ashritha .text-white { color: #3D1A1B !important; }
+body.theme-ashritha .text-slate-100,
+body.theme-ashritha .text-slate-200 { color: #3D1A1B !important; }
+body.theme-ashritha .text-slate-400 { color: #9C6568 !important; }
+body.theme-ashritha .text-slate-500 { color: #BF7E81 !important; }
+
+/* Accent colours → dusty rose */
+body.theme-ashritha .text-indigo-400 { color: #BF7E81 !important; }
+body.theme-ashritha .text-cyan-400    { color: #BF7E81 !important; }
+
+/* Borders */
+body.theme-ashritha .border-white\/5,
+body.theme-ashritha .border-slate-900,
+body.theme-ashritha .border-slate-800 {
+  border-color: rgba(191, 126, 129, 0.18) !important;
 }
 
-body.theme-login .text-indigo-400,
-body.theme-harshith .text-indigo-400,
-body.theme-ashritha .text-indigo-400 {
-  color: var(--text-main) !important;
+/* Amber streak — darken slightly so it's readable on blush */
+body.theme-ashritha .text-amber-500 { color: #b45309 !important; }
+body.theme-ashritha .fill-amber-500\/20 { fill: rgba(180,83,9,0.12) !important; }
+
+/* Dashboard gradient hero header → adapt to each theme */
+body.theme-harshith header.flex { background: rgba(255,255,255,0.05) !important; border-color: rgba(245,235,208,0.08) !important; }
+body.theme-ashritha header.flex { background: rgba(255,255,255,0.45) !important; border-color: rgba(191,126,129,0.15) !important; }
+
+/* Sidebar bottom user-card footer strip */
+body.theme-harshith .border-t { border-color: rgba(245,235,208,0.10) !important; }
+body.theme-ashritha .border-t { border-color: rgba(191,126,129,0.18) !important; }
+
+/* Input fields inside themed dashboards */
+body.theme-ashritha input {
+  background-color: rgba(255,255,255,0.70) !important;
+  color: #3D1A1B !important;
+  border-color: rgba(191,126,129,0.25) !important;
+}
+body.theme-ashritha input::placeholder { color: #BF7E81 !important; }
+
+body.theme-harshith input {
+  background-color: rgba(0,0,0,0.25) !important;
+  color: #F5EBD0 !important;
+  border-color: rgba(245,235,208,0.20) !important;
+}
+body.theme-harshith input::placeholder { color: rgba(245,235,208,0.35) !important; }
+
+/* Modal backdrop on themed screens */
+body.theme-ashritha .bg-\\[\\#111827\\].rounded-\\[24px\\] {
+  background-color: rgba(255,255,255,0.85) !important;
+}
+body.theme-harshith .bg-\\[\\#111827\\].rounded-\\[24px\\] {
+  background-color: rgba(50,0,10,0.75) !important;
+  backdrop-filter: blur(16px);
 }
 
-body.theme-login .text-cyan-400,
-body.theme-harshith .text-cyan-400,
-body.theme-ashritha .text-cyan-400 {
-  color: var(--text-main) !important;
-}
