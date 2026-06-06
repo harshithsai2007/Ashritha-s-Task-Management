@@ -76,19 +76,19 @@ export default function Login({ onLogin }: LoginProps) {
           /* Profile Selection Screen */
           <motion.div
             key="profiles"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, y: -30, filter: "blur(10px)" }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative z-10 flex flex-col items-center"
             style={{ fontFamily: "'Saonara', 'Italiana', 'Playfair Display', serif" }}
           >
             {/* Header with Cute Logo */}
             <div className="mb-12 text-center">
               <motion.div 
-                initial={{ y: -20, opacity: 0 }}
+                initial={{ y: -10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="w-24 h-24 mx-auto mb-6 rounded-[2rem] overflow-hidden flex items-center justify-center p-1"
                 style={{ 
                   background: "rgba(255, 255, 255, 0.04)",
@@ -97,23 +97,23 @@ export default function Login({ onLogin }: LoginProps) {
                 }}
               >
                 <img 
-                  src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" 
+                  src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" 
                   alt="Cute Profile Logo" 
                   className="w-full h-full object-cover rounded-[1.75rem] shadow-md"
                 />
               </motion.div>
               <motion.h1 
-                initial={{ y: 10, opacity: 0 }}
+                initial={{ y: 8, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="text-4xl font-black tracking-tight mb-2 text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)]"
               >
                 Welcome Back
               </motion.h1>
               <motion.p 
-                initial={{ y: 10, opacity: 0 }}
+                initial={{ y: 8, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
                 className="text-slate-400 font-medium tracking-wide text-sm"
               >
                 Select your profile to load dashboard
@@ -124,9 +124,9 @@ export default function Login({ onLogin }: LoginProps) {
             <div className="flex flex-col sm:flex-row gap-6">
               {/* Ashritha Profile Card */}
               <motion.button
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -15 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4, type: "spring" }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 whileHover={{ 
                   scale: 1.05, 
                   y: -5, 
@@ -134,7 +134,7 @@ export default function Login({ onLogin }: LoginProps) {
                 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("ashritha22")}
-                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
+                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-200 overflow-hidden"
                 style={{ 
                   background: "rgba(255, 255, 255, 0.03)", 
                   backdropFilter: "blur(20px)",
@@ -142,7 +142,7 @@ export default function Login({ onLogin }: LoginProps) {
                   boxShadow: "0 10px 30px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05)"
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 <motion.div 
                   className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10 overflow-hidden border border-white/10 group-hover:border-pink-500/30 transition-colors" 
                   style={{ 
@@ -152,8 +152,7 @@ export default function Login({ onLogin }: LoginProps) {
                 >
                   <img src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" alt="A" className="w-full h-full object-cover" />
                 </motion.div>
-                <h3 className="text-xl font-bold mb-1 text-white relative z-10">ashritha22</h3>
-                <p className="text-xs font-semibold text-pink-400 mb-6 relative z-10">AI Engineer</p>
+                <h3 className="text-xl font-bold mb-5 text-white relative z-10">ashritha22</h3>
                 <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10 border border-pink-500/20 group-hover:border-pink-500/60" 
                      style={{ background: "rgba(255, 20, 147, 0.08)", color: "#FF1493" }}>
                   Select
@@ -162,9 +161,9 @@ export default function Login({ onLogin }: LoginProps) {
 
               {/* Harshith Profile Card */}
               <motion.button
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 15 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5, type: "spring" }}
+                transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
                 whileHover={{ 
                   scale: 1.05, 
                   y: -5, 
@@ -172,7 +171,7 @@ export default function Login({ onLogin }: LoginProps) {
                 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("harshith22")}
-                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
+                className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-200 overflow-hidden"
                 style={{ 
                   background: "rgba(255, 255, 255, 0.03)", 
                   backdropFilter: "blur(20px)",
@@ -180,7 +179,7 @@ export default function Login({ onLogin }: LoginProps) {
                   boxShadow: "0 10px 30px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05)"
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 <motion.div 
                   className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10 overflow-hidden border border-white/10 group-hover:border-red-500/30 transition-colors" 
                   style={{ 
@@ -190,8 +189,7 @@ export default function Login({ onLogin }: LoginProps) {
                 >
                   <img src="https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg" alt="H" className="w-full h-full object-cover" />
                 </motion.div>
-                <h3 className="text-xl font-bold mb-1 text-white relative z-10">harshith22</h3>
-                <p className="text-xs font-semibold text-red-500 mb-6 relative z-10">System Architect</p>
+                <h3 className="text-xl font-bold mb-5 text-white relative z-10">harshith22</h3>
                 <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10 border border-red-500/20 group-hover:border-red-500/60" 
                      style={{ background: "rgba(239, 68, 68, 0.08)", color: "#EF4444" }}>
                   Select
@@ -203,10 +201,10 @@ export default function Login({ onLogin }: LoginProps) {
           /* Password Entry Screen */
           <motion.div
             key="password"
-            initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative z-10 w-full max-w-sm"
             style={{ fontFamily: "'Saonara', 'Italiana', 'Playfair Display', serif" }}
           >
