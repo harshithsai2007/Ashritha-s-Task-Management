@@ -81,6 +81,7 @@ export default function App() {
   // Certificate system
   const [showCertificate, setShowCertificate] = React.useState(false);
   const [certMilestoneDays, setCertMilestoneDays] = React.useState<number>(7);
+  const [certIsEarned, setCertIsEarned] = React.useState(false);
   const [milestoneToast, setMilestoneToast] = React.useState<number | null>(null);
   const prevStreakRef = React.useRef<number>(0);
 
@@ -527,7 +528,9 @@ export default function App() {
       {showCertificate && currentUser && (
         <Certificate
           user={currentUser}
-          streakDays={certMilestoneDays}
+          milestoneDays={certMilestoneDays}
+          currentStreak={currentStreak}
+          isEarned={certIsEarned}
           onClose={() => setShowCertificate(false)}
         />
       )}
@@ -540,6 +543,7 @@ export default function App() {
             days={milestoneToast}
             onView={() => {
               setCertMilestoneDays(milestoneToast);
+              setCertIsEarned(true);
               setShowCertificate(true);
               setMilestoneToast(null);
             }}
@@ -796,24 +800,23 @@ export default function App() {
                           return (
                             <motion.button
                               key={days}
-                              whileHover={isEarned ? { scale: 1.04, y: -3 } : {}}
-                              whileTap={isEarned ? { scale: 0.97 } : {}}
+                              whileHover={{ scale: 1.04, y: -3 }}
+                              whileTap={{ scale: 0.97 }}
                               onClick={() => {
-                                if (isEarned) {
-                                  setCertMilestoneDays(days);
-                                  setShowCertificate(true);
-                                }
+                                setCertMilestoneDays(days);
+                                setCertIsEarned(isEarned);
+                                setShowCertificate(true);
                               }}
-                              className="relative rounded-[20px] p-5 text-left overflow-hidden transition-all border"
+                              className="relative rounded-[20px] p-5 text-left overflow-hidden transition-all border cursor-pointer"
                               style={{
                                 background: isEarned
                                   ? `linear-gradient(135deg, ${primaryColor}12, ${secondaryColor}08)`
                                   : "rgba(15,15,25,0.6)",
                                 border: isEarned
                                   ? `1px solid ${info.tierColor}40`
-                                  : "1px solid rgba(255,255,255,0.04)",
-                                cursor: isEarned ? "pointer" : "default",
-                                opacity: isEarned ? 1 : 0.45,
+                                  : "1px solid rgba(255,255,255,0.06)",
+                                cursor: "pointer",
+                                opacity: isEarned ? 1 : 0.6,
                               }}
                             >
                               {/* Glow */}

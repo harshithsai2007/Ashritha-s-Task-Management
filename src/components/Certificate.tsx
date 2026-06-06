@@ -1,11 +1,16 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Download, Share2, Award, Flame, Star, Trophy, Zap } from "lucide-react";
+import { X, Download, Share2, Award, Flame, Star, Trophy, Zap, Lock } from "lucide-react";
 import html2canvas from "html2canvas";
 
 interface CertificateProps {
   user: "ashritha" | "harshith";
-  streakDays: number;
+  /** The milestone days to DISPLAY (7 / 14 / 21 / 30) */
+  milestoneDays: number;
+  /** Current real streak – used for the streak counter on the cert */
+  currentStreak: number;
+  /** If false, Download & Share are locked */
+  isEarned: boolean;
   onClose: () => void;
 }
 
@@ -59,7 +64,6 @@ const USER_PROFILES = {
     avatar: "https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg",
     primaryColor: "#FF1493",
     secondaryColor: "#22D3EE",
-    accentColor: "#FF69B4",
     bgGradient: "linear-gradient(135deg, #0d0020 0%, #1a0035 30%, #001a2e 70%, #000d1a 100%)",
     glowColor: "rgba(255, 20, 147, 0.4)",
     glowColor2: "rgba(34, 211, 238, 0.3)",
@@ -71,7 +75,6 @@ const USER_PROFILES = {
     avatar: "https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg",
     primaryColor: "#EF4444",
     secondaryColor: "#DC2626",
-    accentColor: "#FF6B6B",
     bgGradient: "linear-gradient(135deg, #0a0000 0%, #1a0000 30%, #0d0000 70%, #050000 100%)",
     glowColor: "rgba(239, 68, 68, 0.5)",
     glowColor2: "rgba(220, 38, 38, 0.3)",
@@ -80,21 +83,22 @@ const USER_PROFILES = {
   },
 };
 
-function getMilestoneForStreak(streak: number): MilestoneConfig | null {
-  // Find the highest milestone earned
-  const earned = MILESTONES.filter((m) => streak >= m.days);
-  return earned.length > 0 ? earned[earned.length - 1] : null;
-}
-
 export function getEarnedMilestones(streak: number): number[] {
   return MILESTONES.filter((m) => streak >= m.days).map((m) => m.days);
 }
 
-export default function Certificate({ user, streakDays, onClose }: CertificateProps) {
+export default function Certificate({
+  user,
+  milestoneDays,
+  currentStreak,
+  isEarned,
+  onClose,
+}: CertificateProps) {
   const profile = USER_PROFILES[user];
-  const milestone = getMilestoneForStreak(streakDays);
+  const milestone = MILESTONES.find((m) => m.days === milestoneDays);
   const certRef = React.useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = React.useState(false);
+  const [showLockHint, setShowLockHint] = React.useState(false);
 
   if (!milestone) return null;
 
@@ -106,8 +110,10 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
     day: "numeric",
   });
 
+  const daysLeft = milestone.days - currentStreak;
+
   const handleDownload = async () => {
-    if (!certRef.current) return;
+    if (!isEarned || !certRef.current) return;
     setDownloading(true);
     try {
       const canvas = await html2canvas(certRef.current, {
@@ -134,9 +140,9 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: 0.2 }}
         className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-        style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(12px)" }}
+        style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(14px)" }}
         onClick={onClose}
       >
         {/* Container */}
@@ -157,8 +163,41 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
           </button>
 
           {/* ── THE CERTIFICATE ── */}
-          <div ref={certRef} className="relative overflow-hidden rounded-[24px]" style={{ background: profile.bgGradient }}>
-            
+          <div
+            ref={certRef}
+            className="relative overflow-hidden rounded-[24px]"
+            style={{
+              background: profile.bgGradient,
+              filter: isEarned ? "none" : "grayscale(0.35) brightness(0.82)",
+            }}
+          >
+            {/* Unearned frosted lock overlay */}
+            {!isEarned && (
+              <div
+                className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-[24px] pointer-events-none"
+                style={{ background: "rgba(0,0,0,0.38)", backdropFilter: "blur(1.5px)" }}
+              >
+                <div
+                  className="flex flex-col items-center gap-3 px-8 py-6 rounded-2xl"
+                  style={{
+                    background: "rgba(10,10,20,0.72)",
+                    border: `1px solid ${profile.primaryColor}30`,
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  <Lock className="w-8 h-8 text-white/40" />
+                  <p className="text-sm font-black text-white/70 text-center">
+                    {daysLeft > 0
+                      ? `${daysLeft} more day${daysLeft > 1 ? "s" : ""} to unlock`
+                      : "Keep going — almost there!"}
+                  </p>
+                  <p className="text-[10px] text-white/30 text-center uppercase tracking-widest">
+                    Complete a {milestone.days}-day streak to earn this
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Animated background orbs */}
             <div className="absolute inset-0 pointer-events-none">
               <div
@@ -173,8 +212,7 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 blur-[100px]"
                 style={{ background: profile.primaryColor }}
               />
-
-              {/* Spider-web grid pattern */}
+              {/* Grid */}
               <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <pattern id="cert-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -183,8 +221,7 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                 </defs>
                 <rect width="100%" height="100%" fill="url(#cert-grid)" />
               </svg>
-
-              {/* Diagonal shimmer lines */}
+              {/* Diagonal shimmer */}
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
@@ -215,7 +252,6 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
 
             {/* Certificate content */}
             <div className="relative z-10 p-10">
-              
               {/* Header band */}
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
@@ -232,7 +268,6 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                     </p>
                   </div>
                 </div>
-                {/* Tier badge */}
                 <div
                   className="px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest"
                   style={{
@@ -248,31 +283,28 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
 
               {/* Main content */}
               <div className="text-center mb-8">
-                {/* Icon with glow ring */}
                 <div className="relative inline-flex mb-6">
                   <div
                     className="w-24 h-24 rounded-full flex items-center justify-center relative"
                     style={{
                       background: `radial-gradient(circle, ${profile.primaryColor}30 0%, ${profile.primaryColor}08 100%)`,
                       border: `2px solid ${profile.primaryColor}40`,
-                      boxShadow: `0 0 40px ${profile.primaryColor}40, 0 0 80px ${profile.primaryColor}20`,
+                      boxShadow: isEarned
+                        ? `0 0 40px ${profile.primaryColor}40, 0 0 80px ${profile.primaryColor}20`
+                        : "none",
                     }}
                   >
                     <span style={{ color: profile.primaryColor }}>{milestone.icon}</span>
                   </div>
-                  {/* Rotating ring */}
                   <div
                     className="absolute inset-[-6px] rounded-full opacity-60"
-                    style={{
-                      border: `1px dashed ${profile.secondaryColor}60`,
-                    }}
+                    style={{ border: `1px dashed ${profile.secondaryColor}60` }}
                   />
-                  {/* Days badge */}
                   <div
                     className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center font-black text-sm"
                     style={{
                       background: `linear-gradient(135deg, ${profile.primaryColor}, ${profile.secondaryColor})`,
-                      boxShadow: `0 4px 15px ${profile.primaryColor}60`,
+                      boxShadow: isEarned ? `0 4px 15px ${profile.primaryColor}60` : "none",
                       color: "#fff",
                     }}
                   >
@@ -280,18 +312,16 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                   </div>
                 </div>
 
-                {/* Presented to */}
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40 mb-3">
                   This Certificate is Proudly Presented to
                 </p>
 
-                {/* Avatar + Full Name */}
                 <div className="flex items-center justify-center gap-4 mb-4">
                   <div
                     className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0"
                     style={{
                       border: `2px solid ${profile.primaryColor}60`,
-                      boxShadow: `0 0 20px ${profile.primaryColor}40`,
+                      boxShadow: isEarned ? `0 0 20px ${profile.primaryColor}40` : "none",
                     }}
                   >
                     <img src={profile.avatar} alt={profile.fullName} className="w-full h-full object-cover" />
@@ -314,7 +344,6 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                   </div>
                 </div>
 
-                {/* Achievement title */}
                 <div
                   className="inline-block px-8 py-3 rounded-2xl mb-4"
                   style={{
@@ -324,7 +353,7 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
                 >
                   <h2
                     className="text-2xl font-black uppercase tracking-wide"
-                    style={{ color: profile.primaryColor, textShadow: `0 0 20px ${profile.primaryColor}60` }}
+                    style={{ color: profile.primaryColor, textShadow: isEarned ? `0 0 20px ${profile.primaryColor}60` : "none" }}
                   >
                     {milestone.label}
                   </h2>
@@ -345,81 +374,110 @@ export default function Certificate({ user, streakDays, onClose }: CertificatePr
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1">Date Earned</p>
-                  <p className="text-xs font-semibold text-white/60">{dateStr}</p>
+                  <p className="text-xs font-semibold text-white/60">
+                    {isEarned ? dateStr : "Not yet earned"}
+                  </p>
                 </div>
-
-                {/* Streak count display */}
                 <div className="text-center">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1">Streak</p>
                   <div className="flex items-center gap-1.5">
                     <Flame className="w-4 h-4" style={{ color: profile.primaryColor }} />
                     <span className="text-xl font-black" style={{ color: profile.primaryColor }}>
-                      {streakDays}
+                      {isEarned ? milestone.days : currentStreak}
                     </span>
                     <span className="text-xs text-white/40 font-medium">days</span>
                   </div>
                 </div>
-
                 <div className="text-right">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1">Platform</p>
                   <p className="text-xs font-semibold text-white/60">Task Chronicle</p>
                 </div>
               </div>
 
-              {/* Bottom watermark */}
               <p className="text-center text-[9px] text-white/15 mt-5 uppercase tracking-[0.3em]">
                 Verified Achievement · Task Chronicle · Spider-Verse Edition
               </p>
             </div>
           </div>
 
-          {/* Action buttons below certificate */}
-          <div className="flex items-center gap-3 mt-4">
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={handleDownload}
-              disabled={downloading}
-              className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm text-white cursor-pointer transition-all"
-              style={{
-                background: `linear-gradient(135deg, ${profile.primaryColor}, ${profile.secondaryColor})`,
-                boxShadow: `0 8px 25px ${profile.primaryColor}40`,
-                opacity: downloading ? 0.7 : 1,
-              }}
-            >
-              <Download className="w-4 h-4" />
-              {downloading ? "Generating..." : "Download Certificate"}
-            </motion.button>
+          {/* ── Action buttons ── */}
+          <div className="flex items-center gap-3 mt-4" onMouseLeave={() => setShowLockHint(false)}>
+            {/* Download */}
+            <div className="relative flex-1" onMouseEnter={() => !isEarned && setShowLockHint(true)}>
+              <motion.button
+                whileHover={isEarned ? { scale: 1.03 } : {}}
+                whileTap={isEarned ? { scale: 0.97 } : {}}
+                onClick={handleDownload}
+                disabled={!isEarned || downloading}
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all"
+                style={{
+                  background: isEarned
+                    ? `linear-gradient(135deg, ${profile.primaryColor}, ${profile.secondaryColor})`
+                    : "rgba(255,255,255,0.05)",
+                  boxShadow: isEarned ? `0 8px 25px ${profile.primaryColor}40` : "none",
+                  color: isEarned ? "#fff" : "rgba(255,255,255,0.25)",
+                  cursor: isEarned ? "pointer" : "not-allowed",
+                  border: isEarned ? "none" : "1px solid rgba(255,255,255,0.08)",
+                  opacity: downloading ? 0.7 : 1,
+                }}
+              >
+                {isEarned ? (
+                  <Download className="w-4 h-4" />
+                ) : (
+                  <Lock className="w-4 h-4" />
+                )}
+                {downloading ? "Generating..." : isEarned ? "Download Certificate" : "Download Locked"}
+              </motion.button>
+            </div>
 
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={async () => {
-                await handleDownload();
-              }}
-              className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-bold text-sm cursor-pointer transition-all"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                border: `1px solid ${profile.primaryColor}30`,
-                color: profile.primaryColor,
-              }}
-            >
-              <Share2 className="w-4 h-4" />
-              Share
-            </motion.button>
+            {/* Share */}
+            <div className="relative" onMouseEnter={() => !isEarned && setShowLockHint(true)}>
+              <motion.button
+                whileHover={isEarned ? { scale: 1.03 } : {}}
+                whileTap={isEarned ? { scale: 0.97 } : {}}
+                onClick={isEarned ? handleDownload : undefined}
+                disabled={!isEarned}
+                className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-bold text-sm transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: isEarned ? `1px solid ${profile.primaryColor}30` : "1px solid rgba(255,255,255,0.06)",
+                  color: isEarned ? profile.primaryColor : "rgba(255,255,255,0.2)",
+                  cursor: isEarned ? "pointer" : "not-allowed",
+                }}
+              >
+                {isEarned ? <Share2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+                Share
+              </motion.button>
+            </div>
           </div>
 
-          <p className="text-center text-xs text-white/25 mt-2">
-            Download and share on LinkedIn, Instagram, or Twitter 🕷️
-          </p>
+          {/* Lock hint */}
+          <AnimatePresence>
+            {showLockHint && !isEarned && (
+              <motion.p
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                className="text-center text-xs font-semibold mt-2"
+                style={{ color: profile.primaryColor }}
+              >
+                🔒 Complete a {milestone.days}-day streak to unlock download & share
+              </motion.p>
+            )}
+          </AnimatePresence>
+
+          {isEarned && (
+            <p className="text-center text-xs text-white/25 mt-2">
+              Download and share on LinkedIn, Instagram, or Twitter 🕷️
+            </p>
+          )}
         </motion.div>
       </motion.div>
     </AnimatePresence>
   );
 }
 
-// ─── Milestone Notification Banner ─────────────────────────────────────────────
-// Shows when a new milestone is just reached
+// ─── Milestone Toast Notification ─────────────────────────────────────────────
 interface MilestoneToastProps {
   user: "ashritha" | "harshith";
   days: number;
@@ -438,7 +496,7 @@ export function MilestoneToast({ user, days, onView, onDismiss }: MilestoneToast
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 40, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className="fixed bottom-6 right-6 z-[150] max-w-sm w-full rounded-2xl overflow-hidden cursor-pointer"
+      className="fixed bottom-6 right-6 z-[150] max-w-sm w-full rounded-2xl overflow-hidden"
       style={{
         background: "rgba(10, 10, 20, 0.95)",
         border: `1px solid ${profile.primaryColor}40`,
@@ -446,9 +504,7 @@ export function MilestoneToast({ user, days, onView, onDismiss }: MilestoneToast
         backdropFilter: "blur(20px)",
       }}
     >
-      {/* Top glow line */}
       <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, ${profile.primaryColor}, ${profile.secondaryColor})` }} />
-
       <div className="p-5 flex items-center gap-4">
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -461,7 +517,6 @@ export function MilestoneToast({ user, days, onView, onDismiss }: MilestoneToast
         >
           {milestone.icon}
         </div>
-
         <div className="flex-1 min-w-0">
           <p className="text-xs font-bold uppercase tracking-widest mb-0.5" style={{ color: profile.primaryColor }}>
             🎉 Milestone Unlocked!
@@ -469,26 +524,21 @@ export function MilestoneToast({ user, days, onView, onDismiss }: MilestoneToast
           <p className="text-sm font-black text-white truncate">{milestone.label}</p>
           <p className="text-xs text-white/40">{milestone.days} day streak · Your certificate is ready</p>
         </div>
-
-        <button
-          onClick={onDismiss}
-          className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0"
-        >
+        <button onClick={onDismiss} className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
           <X className="w-4 h-4" />
         </button>
       </div>
-
       <div className="px-5 pb-4 flex gap-2">
         <button
           onClick={onView}
-          className="flex-1 py-2 rounded-xl text-xs font-bold text-white transition-all"
+          className="flex-1 py-2 rounded-xl text-xs font-bold text-white transition-all cursor-pointer"
           style={{ background: `linear-gradient(135deg, ${profile.primaryColor}, ${profile.secondaryColor})` }}
         >
-          View Certificate
+          View & Download Certificate
         </button>
         <button
           onClick={onDismiss}
-          className="px-4 py-2 rounded-xl text-xs font-semibold transition-all"
+          className="px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer"
           style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
         >
           Later
