@@ -6,6 +6,7 @@
 import React from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import Login from "./components/Login";
+import Certificate, { MilestoneToast, getEarnedMilestones } from "./components/Certificate";
 import Sidebar from "./components/Sidebar";
 import { 
   initialMLTopics, 
@@ -68,13 +69,20 @@ import {
   X,
   MessageSquare,
   Code2,
-  FileCode2
+  FileCode2,
+  Download
 } from "lucide-react";
 
 export default function App() {
   const [currentUser, setCurrentUser] = React.useState<"ashritha" | "harshith" | null>(null);
   const [activeTab, setActiveTab] = React.useState<string>("dashboard");
   const [isLoading, setIsLoading] = React.useState(true);
+
+  // Certificate system
+  const [showCertificate, setShowCertificate] = React.useState(false);
+  const [certMilestoneDays, setCertMilestoneDays] = React.useState<number>(7);
+  const [milestoneToast, setMilestoneToast] = React.useState<number | null>(null);
+  const prevStreakRef = React.useRef<number>(0);
 
   React.useEffect(() => {
     if (currentUser === "ashritha") {
@@ -413,6 +421,19 @@ export default function App() {
   const currentStreak = streakMetrics.current;
   const longestStreak = streakMetrics.longest;
 
+  // Detect when a new streak milestone is crossed and show toast
+  React.useEffect(() => {
+    if (!currentUser) return;
+    const milestones = [7, 14, 21, 30];
+    const prev = prevStreakRef.current;
+    const curr = currentStreak;
+    const newMilestone = milestones.find(m => curr >= m && prev < m);
+    if (newMilestone) {
+      setMilestoneToast(newMilestone);
+    }
+    prevStreakRef.current = curr;
+  }, [currentStreak, currentUser]);
+
   // Tasks Completed Today (derived from date comparison)
   const todayDateStr = new Date().toISOString().split("T")[0];
   const tasksCompletedToday = completedTasks.filter(t => t.dateCompleted === todayDateStr).length;
@@ -502,6 +523,31 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-[#0B1120] text-blue-50 overflow-hidden relative font-sans select-none" id="root-app-layout">
+      {/* Certificate Modal */}
+      {showCertificate && currentUser && (
+        <Certificate
+          user={currentUser}
+          streakDays={certMilestoneDays}
+          onClose={() => setShowCertificate(false)}
+        />
+      )}
+
+      {/* Milestone Toast */}
+      <AnimatePresence>
+        {milestoneToast && currentUser && (
+          <MilestoneToast
+            user={currentUser}
+            days={milestoneToast}
+            onView={() => {
+              setCertMilestoneDays(milestoneToast);
+              setShowCertificate(true);
+              setMilestoneToast(null);
+            }}
+            onDismiss={() => setMilestoneToast(null)}
+          />
+        )}
+      </AnimatePresence>
+
       
       {/* Soft spotlight following the mouse smoothly - enhanced light */}
       <div 
@@ -719,6 +765,95 @@ export default function App() {
                   </div>
 
                 </section>
+
+                {/* ── Streak Certificates Showcase ── */}
+                {(() => {
+                  const earned = getEarnedMilestones(currentStreak);
+                  const allMilestones = [7, 14, 21, 30];
+                  const milestoneLabels: Record<number, { label: string; tier: string; tierColor: string; emoji: string }> = {
+                    7:  { label: "Week Warrior",       tier: "Bronze",   tierColor: "#CD7F32", emoji: "🔥" },
+                    14: { label: "Fortnight Champion", tier: "Silver",   tierColor: "#C0C0C0", emoji: "⚡" },
+                    21: { label: "Three-Week Legend",  tier: "Gold",     tierColor: "#FFD700", emoji: "🌟" },
+                    30: { label: "Month Master",       tier: "Platinum", tierColor: "#E5E4E2", emoji: "🏆" },
+                  };
+                  const primaryColor = currentUser === "ashritha" ? "#FF1493" : "#EF4444";
+                  const secondaryColor = currentUser === "ashritha" ? "#22D3EE" : "#DC2626";
+                  return (
+                    <section className="space-y-4 pb-6">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold flex items-center gap-2">
+                          <Award className="w-3.5 h-3.5" style={{ color: primaryColor }} />
+                          Streak Certificates
+                        </span>
+                        <span className="text-[9px] text-slate-600 font-mono font-bold uppercase tracking-wider">
+                          {earned.length} / {allMilestones.length} Earned
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {allMilestones.map((days) => {
+                          const isEarned = earned.includes(days);
+                          const info = milestoneLabels[days];
+                          return (
+                            <motion.button
+                              key={days}
+                              whileHover={isEarned ? { scale: 1.04, y: -3 } : {}}
+                              whileTap={isEarned ? { scale: 0.97 } : {}}
+                              onClick={() => {
+                                if (isEarned) {
+                                  setCertMilestoneDays(days);
+                                  setShowCertificate(true);
+                                }
+                              }}
+                              className="relative rounded-[20px] p-5 text-left overflow-hidden transition-all border"
+                              style={{
+                                background: isEarned
+                                  ? `linear-gradient(135deg, ${primaryColor}12, ${secondaryColor}08)`
+                                  : "rgba(15,15,25,0.6)",
+                                border: isEarned
+                                  ? `1px solid ${info.tierColor}40`
+                                  : "1px solid rgba(255,255,255,0.04)",
+                                cursor: isEarned ? "pointer" : "default",
+                                opacity: isEarned ? 1 : 0.45,
+                              }}
+                            >
+                              {/* Glow */}
+                              {isEarned && (
+                                <div
+                                  className="absolute inset-0 opacity-20 blur-[30px] pointer-events-none"
+                                  style={{ background: `radial-gradient(circle at 50% 0%, ${info.tierColor}, transparent 70%)` }}
+                                />
+                              )}
+                              <div className="relative z-10">
+                                <div className="text-2xl mb-3">{isEarned ? info.emoji : "🔒"}</div>
+                                <div
+                                  className="text-[9px] font-black uppercase tracking-widest mb-1"
+                                  style={{ color: isEarned ? info.tierColor : "#475569" }}
+                                >
+                                  {info.tier} · {days} Days
+                                </div>
+                                <div className="text-xs font-bold text-white/80 leading-tight mb-2">{info.label}</div>
+                                {isEarned ? (
+                                  <div
+                                    className="text-[9px] font-bold flex items-center gap-1"
+                                    style={{ color: primaryColor }}
+                                  >
+                                    <Download className="w-2.5 h-2.5" />
+                                    View & Download
+                                  </div>
+                                ) : (
+                                  <div className="text-[9px] text-slate-600 font-bold">
+                                    {days - currentStreak > 0 ? `${days - currentStreak} days to go` : "Almost there"}
+                                  </div>
+                                )}
+                              </div>
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  );
+                })()}
+
 
               </div>
             )}
