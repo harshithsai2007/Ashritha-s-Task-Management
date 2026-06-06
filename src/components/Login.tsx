@@ -37,23 +37,38 @@ export default function Login({ onLogin }: LoginProps) {
     }
   };
 
+  const selectedUser = selectedProfile ? CREDENTIALS[selectedProfile]?.user : null;
+
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #FDFBFB 0%, #EBEDEE 100%)" }}>
-      {/* Animated 3D Glass Orbs Background */}
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#030107]" style={{ background: "radial-gradient(circle at center, #0F091D 0%, #030107 100%)" }}>
+      
+      {/* Animated 3D Glass Orbs Background - Spider-Verse Portal */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Gwen Orb (Pink/Teal) */}
         <motion.div 
-          animate={{ x: [0, 50, 0], y: [0, -50, 0], rotate: [0, 90, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[80px] opacity-60" 
-          style={{ background: "linear-gradient(135deg, #FFB3BA, #FFDFD3)" }} 
+          animate={{ 
+            x: [0, 60, -20, 0], 
+            y: [0, -50, 40, 0], 
+            scale: [1, 1.15, 0.9, 1]
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[110px] opacity-45" 
+          style={{ background: "linear-gradient(135deg, #FF1493, #22D3EE)" }} 
         />
+        {/* Miles Orb (Red/Black/Dark Purple) */}
         <motion.div 
-          animate={{ x: [0, -50, 0], y: [0, 50, 0], rotate: [0, -90, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[100px] opacity-40" 
-          style={{ background: "linear-gradient(135deg, #A1C4FD, #C2E9FB)" }} 
+          animate={{ 
+            x: [0, -60, 40, 0], 
+            y: [0, 60, -30, 0], 
+            scale: [1, 0.9, 1.1, 1]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[-15%] right-[-15%] w-[600px] h-[600px] rounded-full blur-[120px] opacity-40" 
+          style={{ background: "linear-gradient(135deg, #EF4444, #120A2A)" }} 
         />
-        <div className="absolute inset-0 backdrop-blur-[60px] z-0" />
+        {/* Subtle background web grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40" />
+        <div className="absolute inset-0 backdrop-blur-[70px] z-0" />
       </div>
 
       <AnimatePresence mode="wait">
@@ -66,6 +81,7 @@ export default function Login({ onLogin }: LoginProps) {
             exit={{ opacity: 0, y: -30, filter: "blur(10px)" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 flex flex-col items-center"
+            style={{ fontFamily: "'Saonara', 'Italiana', 'Playfair Display', serif" }}
           >
             {/* Header with Cute Logo */}
             <div className="mb-12 text-center">
@@ -75,22 +91,22 @@ export default function Login({ onLogin }: LoginProps) {
                 transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
                 className="w-24 h-24 mx-auto mb-6 rounded-[2rem] overflow-hidden flex items-center justify-center p-1"
                 style={{ 
-                  background: "rgba(255, 255, 255, 0.4)",
-                  border: "2px solid rgba(255, 255, 255, 0.8)",
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.08), inset 0 2px 10px rgba(255,255,255,0.8)"
+                  background: "rgba(255, 255, 255, 0.04)",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.3), inset 0 2px 10px rgba(255,255,255,0.05)"
                 }}
               >
                 <img 
-                  src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" 
+                  src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" 
                   alt="Cute Profile Logo" 
-                  className="w-full h-full object-cover rounded-[1.75rem] shadow-sm"
+                  className="w-full h-full object-cover rounded-[1.75rem] shadow-md"
                 />
               </motion.div>
               <motion.h1 
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-4xl font-black tracking-tight mb-2 text-slate-800"
+                className="text-4xl font-black tracking-tight mb-2 text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)]"
               >
                 Welcome Back
               </motion.h1>
@@ -98,9 +114,9 @@ export default function Login({ onLogin }: LoginProps) {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-slate-500 font-medium"
+                className="text-slate-400 font-medium tracking-wide text-sm"
               >
-                Who's logging in today?
+                Select your profile to load dashboard
               </motion.p>
             </div>
 
@@ -111,30 +127,35 @@ export default function Login({ onLogin }: LoginProps) {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4, type: "spring" }}
-                whileHover={{ scale: 1.05, y: -5, boxShadow: "0 25px 50px rgba(191,126,129,0.15)" }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -5, 
+                  boxShadow: "0 20px 40px rgba(255, 20, 147, 0.25), 0 0 20px rgba(34, 211, 238, 0.15)"
+                }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("ashritha22")}
                 className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
                 style={{ 
-                  background: "rgba(255, 255, 255, 0.6)", 
-                  border: "1px solid rgba(255, 255, 255, 0.9)",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.04), inset 0 1px 2px rgba(255,255,255,0.8)"
+                  background: "rgba(255, 255, 255, 0.03)", 
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05)"
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-100/30 to-rose-100/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <motion.div 
-                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10" 
+                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10 overflow-hidden border border-white/10 group-hover:border-pink-500/30 transition-colors" 
                   style={{ 
-                    background: "linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)",
-                    boxShadow: "0 15px 30px rgba(255, 154, 158, 0.3), inset 0 2px 4px rgba(255,255,255,0.4)"
+                    background: "linear-gradient(135deg, #FF1493 0%, #22D3EE 100%)",
+                    boxShadow: "0 10px 25px rgba(255, 20, 147, 0.3)"
                   }}
                 >
-                  <span className="text-3xl font-black text-white select-none drop-shadow-sm">A</span>
+                  <img src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" alt="A" className="w-full h-full object-cover" />
                 </motion.div>
-                <h3 className="text-xl font-bold mb-1 text-slate-800 relative z-10">ashritha22</h3>
-                <p className="text-xs font-semibold text-rose-400 mb-6 relative z-10">AI Engineer</p>
-                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10" 
-                     style={{ background: "rgba(255, 154, 158, 0.15)", color: "#D81B60" }}>
+                <h3 className="text-xl font-bold mb-1 text-white relative z-10">ashritha22</h3>
+                <p className="text-xs font-semibold text-pink-400 mb-6 relative z-10">AI Engineer</p>
+                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10 border border-pink-500/20 group-hover:border-pink-500/60" 
+                     style={{ background: "rgba(255, 20, 147, 0.08)", color: "#FF1493" }}>
                   Select
                 </div>
               </motion.button>
@@ -144,30 +165,35 @@ export default function Login({ onLogin }: LoginProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5, type: "spring" }}
-                whileHover={{ scale: 1.05, y: -5, boxShadow: "0 25px 50px rgba(37,99,235,0.15)" }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -5, 
+                  boxShadow: "0 20px 40px rgba(239, 68, 68, 0.25), 0 0 20px rgba(0,0,0,0.5)"
+                }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedProfile("harshith22")}
                 className="group relative w-56 p-8 rounded-[2rem] cursor-pointer text-center transition-all duration-500 overflow-hidden"
                 style={{ 
-                  background: "rgba(255, 255, 255, 0.6)", 
-                  border: "1px solid rgba(255, 255, 255, 0.9)",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.04), inset 0 1px 2px rgba(255,255,255,0.8)"
+                  background: "rgba(255, 255, 255, 0.03)", 
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05)"
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 to-indigo-100/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <motion.div 
-                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10" 
+                  className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center relative z-10 overflow-hidden border border-white/10 group-hover:border-red-500/30 transition-colors" 
                   style={{ 
-                    background: "linear-gradient(135deg, #2563EB, #DC2626)",
-                    boxShadow: "0 15px 30px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255,255,255,0.4)"
+                    background: "linear-gradient(135deg, #EF4444 0%, #000000 100%)",
+                    boxShadow: "0 10px 25px rgba(239, 68, 68, 0.3)"
                   }}
                 >
-                  <span className="text-3xl font-black text-white select-none drop-shadow-sm">H</span>
+                  <img src="https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg" alt="H" className="w-full h-full object-cover" />
                 </motion.div>
-                <h3 className="text-xl font-bold mb-1 text-slate-800 relative z-10">harshith22</h3>
-                <p className="text-xs font-semibold text-blue-500 mb-6 relative z-10">System Architect</p>
-                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10" 
-                     style={{ background: "rgba(37, 99, 235, 0.1)", color: "#2563EB" }}>
+                <h3 className="text-xl font-bold mb-1 text-white relative z-10">harshith22</h3>
+                <p className="text-xs font-semibold text-red-500 mb-6 relative z-10">System Architect</p>
+                <div className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors relative z-10 border border-red-500/20 group-hover:border-red-500/60" 
+                     style={{ background: "rgba(239, 68, 68, 0.08)", color: "#EF4444" }}>
                   Select
                 </div>
               </motion.button>
@@ -182,13 +208,19 @@ export default function Login({ onLogin }: LoginProps) {
             exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 w-full max-w-sm"
+            style={{ fontFamily: "'Saonara', 'Italiana', 'Playfair Display', serif" }}
           >
-            <div className="p-8 rounded-[2.5rem]" style={{ 
-              background: "rgba(255, 255, 255, 0.7)", 
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(255, 255, 255, 0.9)",
-              boxShadow: "0 30px 60px rgba(0,0,0,0.08), inset 0 1px 2px rgba(255,255,255,0.8)"
-            }}>
+            <div 
+              className="p-8 rounded-[2.5rem] transition-all duration-300" 
+              style={{ 
+                background: "rgba(255, 255, 255, 0.04)", 
+                backdropFilter: "blur(28px)",
+                border: selectedUser === "ashritha" ? "1px solid rgba(255, 20, 147, 0.25)" : "1px solid rgba(239, 68, 68, 0.25)",
+                boxShadow: selectedUser === "ashritha"
+                  ? "0 30px 60px rgba(0,0,0,0.4), 0 0 30px rgba(255, 20, 147, 0.15), inset 0 1px 2px rgba(255,255,255,0.05)"
+                  : "0 30px 60px rgba(0,0,0,0.4), 0 0 30px rgba(239, 68, 68, 0.15), inset 0 1px 2px rgba(255,255,255,0.05)"
+              }}
+            >
               <form onSubmit={handleSubmit} className="text-center relative">
                 {/* Back button */}
                 <button
@@ -198,31 +230,34 @@ export default function Login({ onLogin }: LoginProps) {
                     setPassword("");
                     setError("");
                   }}
-                  className="absolute -top-3 -left-2 flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400 hover:text-slate-700 hover:scale-110 transition-all cursor-pointer"
+                  className="absolute -top-3 -left-2 flex items-center justify-center w-8 h-8 rounded-full bg-slate-900/60 border border-slate-700 text-slate-350 hover:text-white hover:scale-110 transition-all cursor-pointer"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </button>
 
                 {/* Avatar */}
                 <motion.div 
-                  initial={{ y: -20 }} animate={{ y: 0 }}
-                  className="w-24 h-24 mx-auto mb-6 rounded-2xl flex items-center justify-center"
+                  initial={{ y: -20 }} 
+                  animate={{ y: 0 }}
+                  className="w-24 h-24 mx-auto mb-6 rounded-2xl flex items-center justify-center overflow-hidden border border-white/10"
                   style={{
-                    background: selectedProfile === "ashritha22"
-                      ? "linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)"
-                      : "linear-gradient(135deg, #2563EB, #DC2626)",
-                    boxShadow: selectedProfile === "ashritha22"
-                      ? "0 20px 40px rgba(255, 154, 158, 0.4), inset 0 2px 4px rgba(255,255,255,0.5)"
-                      : "0 20px 40px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255,255,255,0.5)"
+                    background: selectedUser === "ashritha"
+                      ? "linear-gradient(135deg, #FF1493 0%, #22D3EE 100%)"
+                      : "linear-gradient(135deg, #EF4444 0%, #000000 100%)",
+                    boxShadow: selectedUser === "ashritha"
+                      ? "0 15px 30px rgba(255, 20, 147, 0.35)"
+                      : "0 15px 30px rgba(239, 68, 68, 0.35)"
                   }}
                 >
-                  <span className="text-4xl font-black text-white select-none drop-shadow-md">
-                    {selectedProfile === "ashritha22" ? "A" : "H"}
-                  </span>
+                  <img 
+                    src={selectedUser === "ashritha" ? "https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" : "https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg"}
+                    alt="Profile" 
+                    className="w-full h-full object-cover" 
+                  />
                 </motion.div>
 
-                <h2 className="text-2xl font-black mb-1 text-slate-800 tracking-tight">{selectedProfile}</h2>
-                <p className="text-sm mb-8 text-slate-500 font-medium">Enter your password to unlock</p>
+                <h2 className="text-2xl font-black mb-1 text-white tracking-tight">{selectedProfile}</h2>
+                <p className="text-sm mb-8 text-slate-400 font-medium">Enter password to unlock</p>
 
                 {/* Password input */}
                 <motion.div
@@ -230,7 +265,7 @@ export default function Login({ onLogin }: LoginProps) {
                   transition={{ duration: 0.4 }}
                 >
                   <div className="relative mb-6">
-                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-450" />
                     <input
                       type="password"
                       value={password}
@@ -240,12 +275,12 @@ export default function Login({ onLogin }: LoginProps) {
                       }}
                       placeholder="Password"
                       autoFocus
-                      className="w-full py-4 pl-14 pr-5 rounded-[1.5rem] text-base outline-none transition-all focus:ring-4 placeholder-slate-400"
+                      className="w-full py-4 pl-14 pr-5 rounded-[1.5rem] text-base outline-none transition-all placeholder-slate-500"
                       style={{
-                        backgroundColor: "rgba(255,255,255,0.9)",
-                        border: "1px solid rgba(226, 232, 240, 0.8)",
-                        color: "#1E293B",
-                        boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
+                        backgroundColor: "rgba(0, 0, 0, 0.45)",
+                        border: selectedUser === "ashritha" ? "1px solid rgba(255, 20, 147, 0.2)" : "1px solid rgba(239, 68, 68, 0.2)",
+                        color: "#FFFFFF",
+                        boxShadow: "inset 0 2px 4px rgba(0,0,0,0.3)"
                       }}
                     />
                   </div>
@@ -267,12 +302,14 @@ export default function Login({ onLogin }: LoginProps) {
 
                 {/* Submit button */}
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, boxShadow: selectedUser === "ashritha" ? "0 0 20px rgba(255,20,147,0.5)" : "0 0 20px rgba(239,68,68,0.5)" }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-[1.5rem] text-white text-base font-bold tracking-wide transition-all shadow-xl"
+                  className="w-full py-4 rounded-[1.5rem] text-white text-base font-bold tracking-wide transition-all shadow-xl cursor-pointer"
                   style={{
-                    background: selectedProfile === "ashritha22" ? "linear-gradient(135deg, #FF9A9E, #D81B60)" : "linear-gradient(135deg, #2563EB, #DC2626)",
+                    background: selectedUser === "ashritha" 
+                      ? "linear-gradient(135deg, #FF1493, #C01478)" 
+                      : "linear-gradient(135deg, #EF4444, #991B1B)",
                   }}
                 >
                   Sign In to Dashboard

@@ -103,21 +103,24 @@ export default function Sidebar({
             {currentUser === "ashritha" ? (
               <motion.div 
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg border-2 border-white/80"
+                className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg border-2 border-[#FF69B4]"
               >
-                <img src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" alt="Logo" className="w-full h-full object-cover" />
+                <img src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" alt="Spider Gwen" className="w-full h-full object-cover" />
               </motion.div>
             ) : (
-              <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                <Target className="h-5 w-5 animate-pulse" />
-              </div>
+              <motion.div 
+                whileHover={{ rotate: -10, scale: 1.1 }}
+                className="w-12 h-12 rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(220,38,38,0.5)] border-2 border-red-500"
+              >
+                <img src="https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg" alt="Miles Morales" className="w-full h-full object-cover" />
+              </motion.div>
             )}
             <div>
               <h1 className="text-sm font-bold tracking-tight text-white leading-tight">
                 {currentUser === "ashritha" ? "Ashritha" : "Harshith"}
               </h1>
               <span className="text-[10px] text-slate-400 block font-normal leading-tight mt-0.5">
-                {currentUser === "ashritha" ? "(hi cutie ~harshith)" : "(the architect)"}
+                {currentUser === "ashritha" ? "(spider-gwen)" : "(miles morales)"}
               </span>
             </div>
           </motion.div>
@@ -200,13 +203,33 @@ export default function Sidebar({
             className="flex items-center gap-3 p-2 bg-[#111827]/40 rounded-xl border border-slate-900 cursor-pointer shadow-sm transition-all"
           >
             {currentUser === "ashritha" ? (
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200/50 shadow-md flex-shrink-0">
-                <img src="https://i.pinimg.com/1200x/9f/1e/c8/9f1ec8fadf609c05da366f9111d2bd70.jpg" alt="Profile" className="w-full h-full object-cover" />
-              </div>
+              <motion.div 
+                animate={{ 
+                  boxShadow: [
+                    "0 0 8px rgba(255, 20, 147, 0.4)", 
+                    "0 0 20px rgba(34, 211, 238, 0.65)", 
+                    "0 0 8px rgba(255, 20, 147, 0.4)"
+                  ] 
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="w-10 h-10 rounded-full overflow-hidden border border-[#FF69B4] flex-shrink-0"
+              >
+                <img src="https://i.pinimg.com/736x/40/14/ba/4014ba3d3a6ecb4b56f7488cd781b4f4.jpg" alt="Profile" className="w-full h-full object-cover" />
+              </motion.div>
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md text-xs select-none">
-                HAR
-              </div>
+              <motion.div 
+                animate={{ 
+                  boxShadow: [
+                    "0 0 8px rgba(220, 38, 38, 0.4)", 
+                    "0 0 20px rgba(220, 38, 38, 0.8)", 
+                    "0 0 8px rgba(220, 38, 38, 0.4)"
+                  ] 
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="w-10 h-10 rounded-full overflow-hidden border border-red-500 flex-shrink-0"
+              >
+                <img src="https://i.pinimg.com/1200x/6a/af/47/6aaf47796dea920c7d50b0ae83b9fa4a.jpg" alt="Profile" className="w-full h-full object-cover" />
+              </motion.div>
             )}
             <div className="min-w-0 flex-1">
               <h4 className="text-xs font-semibold text-slate-200 truncate">{currentUser === "ashritha" ? "Ashritha" : "Harshith"}</h4>

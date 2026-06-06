@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -14,14 +15,20 @@ body {
   min-height: 100vh;
 }
 
+body.theme-login {
+  --font-sans: 'Italiana', 'Playfair Display', serif !important;
+  --font-mono: 'Italiana', 'Playfair Display', serif !important;
+  font-family: 'Italiana', 'Playfair Display', serif !important;
+}
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 
 /* ============================================
-   HARSHITH THEME - THE AMAZING SPIDER-MAN
+   HARSHITH THEME - MILES MORALES (SPIDER-MAN)
    ============================================ */
 
 body.theme-harshith {
-  background: radial-gradient(circle at top right, #1E1B4B, #020617 60%) !important;
+  background: radial-gradient(circle at top right, #111111, #000000 70%) !important;
   background-attachment: fixed !important;
   color: #F8FAFC !important;
 }
@@ -34,203 +41,280 @@ body.theme-harshith::before {
   pointer-events: none;
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(220, 38, 38, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(220, 38, 38, 0.03) 1px, transparent 1px);
   z-index: 0;
 }
 
 /* Safe text color resets */
-body.theme-harshith .text-white, body.theme-harshith .text-slate-100, body.theme-harshith .text-slate-200 { color: #F8FAFC !important; }
-body.theme-harshith .text-slate-400, body.theme-harshith .text-slate-500 { color: #94A3B8 !important; }
+body.theme-harshith .text-white, body.theme-harshith .text-slate-100, body.theme-harshith .text-slate-200 { color: #FFFFFF !important; }
+body.theme-harshith .text-slate-400, body.theme-harshith .text-slate-500 { color: #A1A1AA !important; }
 body.theme-harshith .text-indigo-400, body.theme-harshith .text-cyan-400, body.theme-harshith .text-emerald-400, body.theme-harshith .text-amber-500, body.theme-harshith .text-purple-400, body.theme-harshith .text-sky-400 {
-  color: #60A5FA !important; /* Spider Blue */
+  color: #EF4444 !important; /* Miles Neon Red */
 }
 
 /* Shiny Glassmorphism Panels */
 body.theme-harshith .bg-\[\#111827\], body.theme-harshith .bg-\[\#0B1120\], body.theme-harshith aside, body.theme-harshith .bg-slate-900\/40, body.theme-harshith .glass-panel, body.theme-harshith .glass-card, body.theme-harshith .p-6.border, body.theme-harshith .rounded-\[24px\], body.theme-harshith .rounded-\[28px\], body.theme-harshith .rounded-\[32px\] {
-  background: rgba(15, 23, 42, 0.6) !important;
-  backdrop-filter: blur(16px);
-  /* Shiny spider-suit edge: red bottom, blue top */
-  border-top: 1px solid rgba(59, 130, 246, 0.4) !important; 
-  border-bottom: 1px solid rgba(220, 38, 38, 0.4) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  background: rgba(10, 10, 10, 0.7) !important;
+  backdrop-filter: blur(20px);
+  /* Shiny spider-suit edge: red bottom, dark top */
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important; 
+  border-bottom: 1px solid rgba(239, 68, 68, 0.6) !important;
+  border-left: 1px solid rgba(239, 68, 68, 0.1) !important;
+  border-right: 1px solid rgba(239, 68, 68, 0.1) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
   color: #F8FAFC !important;
 }
 
 /* Nested inner panels */
 body.theme-harshith .p-3.bg-slate-950, body.theme-harshith .bg-slate-950\/45, body.theme-harshith .bg-slate-950\/20, body.theme-harshith .bg-slate-950\/60, body.theme-harshith .bg-slate-900 {
-  background: rgba(2, 6, 23, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid rgba(239, 68, 68, 0.15) !important;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* Dashboard Hero Header Gradient */
 body.theme-harshith header.flex {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(220, 38, 38, 0.05)) !important;
-  border-top: 1px solid rgba(59, 130, 246, 0.3) !important;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(0, 0, 0, 0.8)) !important;
+  border-top: 1px solid rgba(239, 68, 68, 0.4) !important;
 }
 
 /* Progress bars and Tracks */
 body.theme-harshith .bg-slate-950.rounded-full, body.theme-harshith .bg-slate-900.rounded-full {
-  background: rgba(0, 0, 0, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
 }
 body.theme-harshith .h-full.rounded-full {
-  background: linear-gradient(90deg, #2563EB, #DC2626) !important; /* Spider Blue to Spider Red */
-  box-shadow: 0 0 12px rgba(220, 38, 38, 0.5) !important;
+  background: linear-gradient(90deg, #991B1B, #EF4444) !important; /* Miles Red Gradient */
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important;
 }
 
 /* Calendar Cells - Grids with Spider Vibes */
-body.theme-harshith .calendar-grid { gap: 1px !important; background: rgba(59, 130, 246, 0.2) !important; border: 1px solid rgba(59, 130, 246, 0.3) !important; border-radius: 8px; overflow: hidden; }
+body.theme-harshith .calendar-grid { gap: 2px !important; background: rgba(239, 68, 68, 0.4) !important; border: 2px solid rgba(239, 68, 68, 0.6) !important; border-radius: 8px; overflow: hidden; box-shadow: 0 0 15px rgba(239, 68, 68, 0.2) !important; }
 body.theme-harshith .calendar-grid > div { border-radius: 0 !important; border: none !important; }
-body.theme-harshith .cal-day-0 { background: rgba(15, 23, 42, 0.9) !important; color: #475569 !important; }
-body.theme-harshith .cal-day-1 { background: rgba(30, 58, 138, 0.7) !important; color: #93C5FD !important; }
-body.theme-harshith .cal-day-2 { background: rgba(37, 99, 235, 0.8) !important; color: #fff !important; }
-body.theme-harshith .cal-day-3 { background: linear-gradient(135deg, #DC2626, #991B1B) !important; color: #fff !important; font-weight: 900; box-shadow: 0 0 10px rgba(220, 38, 38, 0.5) !important; }
+body.theme-harshith .cal-day-0 { background: rgba(10, 10, 10, 0.95) !important; color: #52525B !important; }
+body.theme-harshith .cal-day-1 { background: rgba(153, 27, 27, 0.6) !important; color: #FCA5A5 !important; }
+body.theme-harshith .cal-day-2 { background: rgba(220, 38, 38, 0.8) !important; color: #fff !important; }
+body.theme-harshith .cal-day-3 { background: linear-gradient(135deg, #EF4444, #991B1B) !important; color: #fff !important; font-weight: 900; box-shadow: 0 0 15px rgba(239, 68, 68, 0.8) !important; }
 
 /* Heatmap specific classes */
-body.theme-harshith .bg-slate-900.border-slate-800 { background: rgba(15, 23, 42, 0.9) !important; border: none !important; }
-body.theme-harshith .bg-indigo-950 { background: rgba(30, 58, 138, 0.7) !important; border: none !important; }
-body.theme-harshith .bg-indigo-800 { background: rgba(37, 99, 235, 0.8) !important; border: none !important; }
-body.theme-harshith .bg-indigo-600 { background: rgba(220, 38, 38, 0.8) !important; border: none !important; }
-body.theme-harshith .bg-cyan-400 { background: linear-gradient(135deg, #DC2626, #991B1B) !important; border: none !important; box-shadow: 0 0 10px rgba(220, 38, 38, 0.5) !important; }
+body.theme-harshith .bg-slate-900.border-slate-800 { background: rgba(10, 10, 10, 0.9) !important; border: none !important; }
+body.theme-harshith .bg-indigo-950 { background: rgba(153, 27, 27, 0.4) !important; border: none !important; }
+body.theme-harshith .bg-indigo-800 { background: rgba(220, 38, 38, 0.7) !important; border: none !important; }
+body.theme-harshith .bg-indigo-600 { background: rgba(239, 68, 68, 0.9) !important; border: none !important; }
+body.theme-harshith .bg-cyan-400 { background: linear-gradient(135deg, #EF4444, #991B1B) !important; border: none !important; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important; }
 
 /* SVG overrides */
-body.theme-harshith svg defs stop { stop-color: #3B82F6 !important; }
-body.theme-harshith svg defs stop:last-child { stop-color: #DC2626 !important; }
-body.theme-harshith svg path[stroke="#6366F1"] { stroke: #DC2626 !important; filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.5)); }
-body.theme-harshith svg circle { stroke: #3B82F6 !important; }
+body.theme-harshith svg defs stop { stop-color: #EF4444 !important; }
+body.theme-harshith svg defs stop:last-child { stop-color: #991B1B !important; }
+body.theme-harshith svg path[stroke="#6366F1"] { stroke: #EF4444 !important; filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.6)); }
+body.theme-harshith svg circle { stroke: #EF4444 !important; }
 body.theme-harshith svg.lucide { fill: none !important; }
 
 /* Inputs and Buttons */
 body.theme-harshith button {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid rgba(59, 130, 246, 0.4) !important;
-  color: #93C5FD !important;
+  background: rgba(10, 10, 10, 0.8) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  color: #FCA5A5 !important;
   transition: all 0.3s ease !important;
 }
-body.theme-harshith button:hover { background: rgba(30, 58, 138, 0.6) !important; box-shadow: 0 0 12px rgba(59, 130, 246, 0.3) !important; }
+body.theme-harshith button:hover { background: rgba(153, 27, 27, 0.5) !important; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4) !important; }
 body.theme-harshith button.bg-indigo-600 {
-  background: linear-gradient(135deg, #DC2626, #991B1B) !important;
+  background: linear-gradient(135deg, #EF4444, #991B1B) !important;
   color: white !important;
-  border: 1px solid #F87171 !important;
-  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4) !important;
+  border: 1px solid #FCA5A5 !important;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5) !important;
 }
 body.theme-harshith input {
-  background: rgba(2, 6, 23, 0.8) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
   color: #F8FAFC !important;
-  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
 }
-body.theme-harshith input:focus { border-color: #EF4444 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important; }
-body.theme-harshith input::placeholder { color: #64748B !important; }
+body.theme-harshith input:focus { border-color: #EF4444 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3) !important; }
+body.theme-harshith input::placeholder { color: #52525B !important; }
 
 /* Scrollbar */
 body.theme-harshith ::-webkit-scrollbar-track { background: transparent; }
-body.theme-harshith ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 8px; }
-body.theme-harshith ::-webkit-scrollbar-thumb:hover { background: rgba(220, 38, 38, 0.6); }
+body.theme-harshith ::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.5); border-radius: 8px; }
+body.theme-harshith ::-webkit-scrollbar-thumb:hover { background: rgba(239, 68, 68, 0.8); }
+
+/* Progress bar overrides to strictly Red/Black */
+body.theme-harshith .bg-gradient-to-r.from-indigo-500,
+body.theme-harshith .bg-gradient-to-r.from-cyan-500,
+body.theme-harshith .bg-gradient-to-r.from-amber-500,
+body.theme-harshith .bg-gradient-to-r.from-emerald-500,
+body.theme-harshith .bg-gradient-to-r.from-purple-500,
+body.theme-harshith .bg-gradient-to-r.from-indigo-600 {
+  background-image: linear-gradient(90deg, #991B1B, #EF4444) !important;
+}
 
 
 /* ============================================
-   ASHRITHA THEME - BESPOKE GLASSMORPHISM
+   ASHRITHA THEME - SPIDER-GWEN GLASSMORPHISM
    ============================================ */
 
 body.theme-ashritha {
-  background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 100%) !important;
+  --font-sans: 'Lora', 'Italiana', 'Playfair Display', serif !important;
+  --font-mono: 'Lora', 'Italiana', 'Playfair Display', serif !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0F2FE 50%, #FCE7F3 100%) !important;
   background-attachment: fixed !important;
-  color: #4A2333 !important; /* Deep Plum for readable text */
+  color: #0F172A !important; /* Pure Dark Slate for extreme contrast */
   font-family: 'Lora', serif !important;
 }
 
+/* Base text resets to override any messy grey text! */
+body.theme-ashritha * {
+  color: inherit;
+}
+
 /* Safe text color resets */
-body.theme-ashritha .text-white, body.theme-ashritha .text-slate-100, body.theme-ashritha .text-slate-200 { color: #4A2333 !important; }
-body.theme-ashritha .text-slate-400, body.theme-ashritha .text-slate-500 { color: #633945 !important; } /* Deep Muted Rose/Brown (FIXED CONTRAST) */
-body.theme-ashritha .text-indigo-400, body.theme-ashritha .text-cyan-400, body.theme-ashritha .text-emerald-400, body.theme-ashritha .text-amber-500, body.theme-ashritha .text-purple-400, body.theme-ashritha .text-sky-400 {
-  color: #D81B60 !important; /* Vibrant pink accent */
+body.theme-ashritha .text-white, 
+body.theme-ashritha .text-slate-50, 
+body.theme-ashritha .text-slate-100, 
+body.theme-ashritha .text-slate-200, 
+body.theme-ashritha .text-slate-300, 
+body.theme-ashritha .text-zinc-50, 
+body.theme-ashritha .text-zinc-100, 
+body.theme-ashritha .text-zinc-200, 
+body.theme-ashritha .text-gray-100, 
+body.theme-ashritha .text-gray-200 { 
+  color: #0F172A !important; 
+}
+
+body.theme-ashritha .text-slate-350, 
+body.theme-ashritha .text-slate-400, 
+body.theme-ashritha .text-slate-450, 
+body.theme-ashritha .text-slate-500, 
+body.theme-ashritha .text-slate-600, 
+body.theme-ashritha .text-slate-650, 
+body.theme-ashritha .text-slate-700, 
+body.theme-ashritha .text-zinc-350, 
+body.theme-ashritha .text-zinc-400, 
+body.theme-ashritha .text-zinc-500, 
+body.theme-ashritha .text-gray-300, 
+body.theme-ashritha .text-gray-400, 
+body.theme-ashritha .text-gray-500 { 
+  color: #475569 !important; 
+  font-weight: 600 !important; 
+}
+
+body.theme-ashritha .text-indigo-400, 
+body.theme-ashritha .text-purple-400, 
+body.theme-ashritha .text-pink-400, 
+body.theme-ashritha .text-pink-500, 
+body.theme-ashritha .text-rose-400 {
+  color: #FF1493 !important; /* Spider-Gwen Neon Pink */
+}
+
+body.theme-ashritha .text-cyan-400, 
+body.theme-ashritha .text-sky-400, 
+body.theme-ashritha .text-emerald-400, 
+body.theme-ashritha .text-teal-400 {
+  color: #0891B2 !important; /* Spider-Gwen Neon Teal */
 }
 
 /* Background panel resets to Frosted Glass (Ultra Shiny 3D) */
 body.theme-ashritha .bg-\[\#111827\], body.theme-ashritha .bg-\[\#0B1120\], body.theme-ashritha aside, body.theme-ashritha .bg-slate-900\/40, body.theme-ashritha .glass-panel, body.theme-ashritha .glass-card, body.theme-ashritha .p-6.border, body.theme-ashritha .rounded-\[24px\], body.theme-ashritha .rounded-\[28px\], body.theme-ashritha .rounded-\[32px\] {
-  background: rgba(255, 255, 255, 0.65) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  border-top: 1px solid rgba(255, 255, 255, 1) !important;
-  border-left: 1px solid rgba(255, 255, 255, 1) !important;
-  box-shadow: 0 16px 40px rgba(191, 126, 129, 0.15), inset 0 2px 4px rgba(255,255,255,1), inset 0 -2px 4px rgba(255,255,255,0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  border-top: 1px solid rgba(34, 211, 238, 0.4) !important; /* Spider-Gwen Teal Edge */
+  border-left: 1px solid rgba(255, 20, 147, 0.3) !important; /* Neon Pink Edge */
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255,255,255,1), inset 0 -2px 4px rgba(34, 211, 238, 0.1) !important;
+  color: #0F172A !important;
 }
 
 /* Nested small panels (like active list items) (3D Pop) */
 body.theme-ashritha .p-3.bg-slate-950, body.theme-ashritha .bg-slate-950\/45, body.theme-ashritha .bg-slate-950\/20, body.theme-ashritha .bg-slate-950\/60, body.theme-ashritha .bg-slate-900 {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(255, 20, 147, 0.15) !important;
   border-top: 1px solid rgba(255, 255, 255, 1) !important;
-  color: #4A2333 !important;
-  box-shadow: 0 4px 15px rgba(191, 126, 129, 0.08), inset 0 1px 2px rgba(255,255,255,1) !important;
+  color: #0F172A !important;
+  box-shadow: 0 4px 15px rgba(255, 20, 147, 0.05), inset 0 1px 2px rgba(255,255,255,1) !important;
 }
 
 /* Dashboard Hero Header Gradient */
 body.theme-ashritha header.flex {
-  background: linear-gradient(135deg, rgba(255, 182, 193, 0.25), rgba(255, 105, 180, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(255, 20, 147, 0.1)) !important;
   border: 1px solid rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Progress bars and Tracks */
 body.theme-ashritha .bg-slate-950.rounded-full, body.theme-ashritha .bg-slate-900.rounded-full {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(255, 182, 193, 0.3) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(34, 211, 238, 0.3) !important;
 }
 body.theme-ashritha .h-full.rounded-full {
-  background: linear-gradient(90deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%) !important; /* Beautiful vibrant pink gradient */
-  box-shadow: 0 0 10px rgba(255, 154, 158, 0.4) !important;
+  background: linear-gradient(90deg, #22D3EE 0%, #FF1493 100%) !important; /* Spider-Gwen Teal to Neon Pink */
+  box-shadow: 0 0 12px rgba(255, 20, 147, 0.4) !important;
 }
 
 /* Calendar Cells (App.tsx and Charts.tsx) */
 body.theme-ashritha .calendar-grid { gap: 6px !important; }
-body.theme-ashritha .cal-day-0 { background: rgba(255, 255, 255, 0.4) !important; border: 1px solid rgba(255,255,255,0.6) !important; color: #8B5A65 !important; }
-body.theme-ashritha .cal-day-1 { background: rgba(255, 182, 193, 0.4) !important; border: 1px solid rgba(255, 182, 193, 0.6) !important; color: #D81B60 !important; }
-body.theme-ashritha .cal-day-2 { background: rgba(255, 105, 180, 0.6) !important; border: 1px solid rgba(255, 105, 180, 0.8) !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-body.theme-ashritha .cal-day-3 { background: linear-gradient(135deg, #FF69B4, #D81B60) !important; border: none !important; color: #fff !important; font-weight: 900; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3) !important; }
+body.theme-ashritha .cal-day-0 { background: rgba(255, 255, 255, 0.6) !important; border: 1px solid rgba(34, 211, 238, 0.15) !important; color: #475569 !important; }
+body.theme-ashritha .cal-day-1 { background: rgba(34, 211, 238, 0.15) !important; border: 1px solid rgba(34, 211, 238, 0.4) !important; color: #0891B2 !important; }
+body.theme-ashritha .cal-day-2 { background: rgba(255, 20, 147, 0.12) !important; border: 1px solid rgba(255, 20, 147, 0.4) !important; color: #FF1493 !important; }
+body.theme-ashritha .cal-day-3 { background: linear-gradient(135deg, #22D3EE, #FF1493) !important; border: none !important; color: #fff !important; font-weight: 900; box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3) !important; }
 
 /* Heatmap specific classes */
-body.theme-ashritha .bg-slate-900.border-slate-800 { background: rgba(255,255,255,0.4) !important; border: 1px solid rgba(255,255,255,0.6) !important; }
-body.theme-ashritha .bg-indigo-950 { background: rgba(255, 182, 193, 0.4) !important; border: 1px solid rgba(255, 182, 193, 0.6) !important; }
-body.theme-ashritha .bg-indigo-800 { background: rgba(255, 105, 180, 0.6) !important; border: 1px solid rgba(255, 105, 180, 0.8) !important; }
-body.theme-ashritha .bg-indigo-600 { background: rgba(216, 27, 96, 0.8) !important; border: 1px solid rgba(216, 27, 96, 0.9) !important; }
-body.theme-ashritha .bg-cyan-400 { background: linear-gradient(135deg, #FF69B4, #D81B60) !important; border: none !important; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3) !important; }
+body.theme-ashritha .bg-slate-900.border-slate-800 { background: rgba(255,255,255,0.6) !important; border: 1px solid rgba(226, 232, 240, 1) !important; }
+body.theme-ashritha .bg-indigo-950 { background: rgba(34, 211, 238, 0.3) !important; border: 1px solid rgba(34, 211, 238, 0.5) !important; }
+body.theme-ashritha .bg-indigo-800 { background: rgba(255, 105, 180, 0.6) !important; border: 1px solid rgba(255, 20, 147, 0.5) !important; }
+body.theme-ashritha .bg-indigo-600 { background: rgba(255, 20, 147, 0.9) !important; border: 1px solid rgba(255, 20, 147, 1) !important; }
+body.theme-ashritha .bg-cyan-400 { background: linear-gradient(135deg, #22D3EE, #FF1493) !important; border: none !important; box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3) !important; }
 
 /* SVG overrides */
-body.theme-ashritha svg defs stop { stop-color: #FF9A9E !important; }
-body.theme-ashritha svg defs stop:last-child { stop-color: #FECFEF !important; }
-body.theme-ashritha svg path[stroke="#6366F1"] { stroke: #D81B60 !important; filter: drop-shadow(0 4px 6px rgba(216, 27, 96, 0.2)); }
-body.theme-ashritha svg circle { stroke: #FF9A9E !important; }
+body.theme-ashritha svg defs stop { stop-color: #22D3EE !important; }
+body.theme-ashritha svg defs stop:last-child { stop-color: #FF1493 !important; }
+body.theme-ashritha svg path[stroke="#6366F1"] { stroke: #FF1493 !important; filter: drop-shadow(0 4px 6px rgba(255, 20, 147, 0.2)); }
+body.theme-ashritha svg circle { stroke: #22D3EE !important; }
 
 /* Inputs and Buttons */
 body.theme-ashritha button {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(255, 182, 193, 0.5) !important;
-  color: #D81B60 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(34, 211, 238, 0.4) !important;
+  color: #FF1493 !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02), inset 0 1px 1px rgba(255,255,255,0.8) !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02), inset 0 1px 1px rgba(255,255,255,1) !important;
 }
-body.theme-ashritha button:hover { background: rgba(255, 255, 255, 0.95) !important; box-shadow: 0 6px 15px rgba(255, 182, 193, 0.2), inset 0 1px 2px rgba(255,255,255,1) !important; transform: translateY(-1px); }
+body.theme-ashritha button:hover { background: #FFFFFF !important; box-shadow: 0 6px 15px rgba(255, 20, 147, 0.15), inset 0 1px 2px rgba(255,255,255,1) !important; transform: translateY(-1px); }
 body.theme-ashritha button.bg-indigo-600 {
-  background: linear-gradient(135deg, #FF9A9E, #D81B60) !important;
+  background: linear-gradient(135deg, #22D3EE, #FF1493) !important;
   color: white !important;
   border: none !important;
-  box-shadow: 0 6px 20px rgba(216, 27, 96, 0.3), inset 0 2px 4px rgba(255,255,255,0.3) !important;
+  box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3), inset 0 2px 4px rgba(255,255,255,0.4) !important;
 }
 body.theme-ashritha input {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #4A2333 !important;
-  border: 1px solid rgba(255, 182, 193, 0.4) !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid rgba(34, 211, 238, 0.4) !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
 }
-body.theme-ashritha input:focus { border-color: #D81B60 !important; box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.15), inset 0 2px 4px rgba(0,0,0,0.02) !important; }
-body.theme-ashritha input::placeholder { color: #8B5A65 !important; opacity: 0.6; }
+body.theme-ashritha input:focus { border-color: #FF1493 !important; box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.15), inset 0 2px 4px rgba(0,0,0,0.02) !important; }
+body.theme-ashritha input::placeholder { color: #64748B !important; opacity: 0.8; }
 
 /* Scrollbar */
 body.theme-ashritha ::-webkit-scrollbar-track { background: transparent; }
-body.theme-ashritha ::-webkit-scrollbar-thumb { background: rgba(255, 182, 193, 0.8); border-radius: 8px; }
-body.theme-ashritha ::-webkit-scrollbar-thumb:hover { background: rgba(216, 27, 96, 0.7); }
+body.theme-ashritha ::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.6); border-radius: 8px; }
+body.theme-ashritha ::-webkit-scrollbar-thumb:hover { background: rgba(255, 20, 147, 0.6); }
+
+/* Progress bar overrides to strictly Pink/Teal/Cyan */
+body.theme-ashritha .bg-gradient-to-r.from-indigo-500 {
+  background-image: linear-gradient(90deg, #22D3EE, #FF1493) !important;
+}
+body.theme-ashritha .bg-gradient-to-r.from-cyan-500 {
+  background-image: linear-gradient(90deg, #06B6D4, #22D3EE) !important;
+}
+body.theme-ashritha .bg-gradient-to-r.from-amber-500 {
+  background-image: linear-gradient(90deg, #0891B2, #22D3EE) !important;
+}
+body.theme-ashritha .bg-gradient-to-r.from-emerald-500 {
+  background-image: linear-gradient(90deg, #FF1493, #FF69B4) !important;
+}
+body.theme-ashritha .bg-gradient-to-r.from-purple-500 {
+  background-image: linear-gradient(90deg, #FF1493, #22D3EE) !important;
+}
+body.theme-ashritha .bg-gradient-to-r.from-indigo-600 {
+  background-image: linear-gradient(90deg, #22D3EE, #FF1493) !important;
+}
 
