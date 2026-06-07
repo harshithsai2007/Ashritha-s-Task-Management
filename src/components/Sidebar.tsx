@@ -24,7 +24,8 @@ import {
   MessageSquare,
   Zap,
   Code2,
-  FileCode2
+  FileCode2,
+  BookOpen
 } from "lucide-react";
 
 interface SidebarProps {
@@ -57,6 +58,7 @@ export default function Sidebar({
     { id: "cloud", label: currentUser === "harshith" ? "Python Learning" : "Cloud Learning", icon: currentUser === "harshith" ? FileCode2 : Cloud, category: "Domains" },
     { id: "calendar", label: "Calendar", icon: Calendar, category: "Tracking" },
     { id: "analytics", label: "Analytics", icon: BarChart3, category: "Tracking" },
+    { id: "notes", label: "Learning Journal", icon: BookOpen, category: "Tracking" },
     { id: "achievements", label: "Achievements", icon: Award, category: "Gamification" },
   ];
 

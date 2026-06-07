@@ -21,6 +21,7 @@ export interface MLTopic {
   name: string;
   isCompleted: boolean;
   dateCompleted?: string; // YYYY-MM-DD
+  note?: string;
 }
 
 // Domain 2: AI Project Milestone
@@ -29,6 +30,7 @@ export interface ProjectMilestone {
   name: string;
   isCompleted: boolean;
   dateCompleted?: string;
+  note?: string;
 }
 
 // Domain 3: 30 Days AI Tool Day
@@ -37,6 +39,7 @@ export interface FIToolDay {
   name: string;
   isCompleted: boolean;
   dateCompleted?: string;
+  note?: string;
 }
 
 // Domain 4: Daily DSA Problem
@@ -45,6 +48,7 @@ export interface DSALog {
   name: string;
   isCompleted: boolean;
   dateCompleted?: string;
+  note?: string;
 }
 
 // Domain 5: Cloud Learning Topic
@@ -53,6 +57,19 @@ export interface CloudTopic {
   name: string;
   isCompleted: boolean;
   dateCompleted?: string;
+  note?: string;
+}
+
+// Learning Journal Note
+export interface LearningNote {
+  id: string;
+  taskId: string;
+  taskName: string;
+  domain: string; // 'ml' | 'project' | 'tools' | 'dsa' | 'cloud'
+  content: string;
+  createdAt: string; // ISO timestamp
+  dateLabel: string; // e.g. "Saturday, June 7, 2026"
+  timeLabel: string; // e.g. "2:15 PM"
 }
 
 // Streak Tracker
@@ -81,6 +98,7 @@ export interface CareerOSState {
   cloudTopics: CloudTopic[];
   streakState: StreakState;
   badges: Badge[];
+  notes: LearningNote[];
   preferences?: {
     userName?: string;
   };

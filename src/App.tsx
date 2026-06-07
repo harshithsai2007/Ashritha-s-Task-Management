@@ -24,7 +24,8 @@ import {
   FIToolDay, 
   DSALog, 
   CloudTopic, 
-  Badge 
+  Badge,
+  LearningNote
 } from "./types";
 import { 
   ProgressRing, 
@@ -38,6 +39,8 @@ import ProjectModule from "./components/ProjectModule";
 import ToolsModule from "./components/ToolsModule";
 import DSAModule from "./components/DSAModule";
 import CloudModule from "./components/CloudModule";
+import NoteModal from "./components/NoteModal";
+import NotesModule from "./components/NotesModule";
 
 // Lucide icons
 import { 
@@ -104,6 +107,7 @@ export default function App() {
     cloudTopics: initialCloudTopics,
     streakState: defaultStreakState,
     badges: initialBadges,
+    notes: [],
     preferences: {
       userName: "Ashritha"
     }
@@ -118,6 +122,7 @@ export default function App() {
     cloudTopics: [{ id: "h-cloud-1", name: "daily python learning", isCompleted: false }],
     streakState: defaultStreakState,
     badges: initialBadges,
+    notes: [],
     preferences: {
       userName: "Harshith"
     }
@@ -135,9 +140,13 @@ export default function App() {
     async function fetchState() {
       try {
         const cloudState = await loadStateFromCloud(defaultState, currentUser);
+        const stateWithNotes = {
+          ...cloudState,
+          notes: cloudState.notes || []
+        };
         setState(prev => {
-          if (JSON.stringify(prev) !== JSON.stringify(cloudState)) {
-            return cloudState;
+          if (JSON.stringify(prev) !== JSON.stringify(stateWithNotes)) {
+            return stateWithNotes;
           }
           return prev;
         });
@@ -200,6 +209,13 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Note prompting modal state
+  const [notePrompt, setNotePrompt] = React.useState<{
+    taskId: string;
+    taskName: string;
+    domain: "ml" | "project" | "tools" | "dsa" | "cloud";
+  } | null>(null);
+
   // State handlers for each simple domain list
   const handleDeleteMLTopic = (id: string) => {
     const updated = {
@@ -222,11 +238,22 @@ export default function App() {
   };
 
   const handleUpdateMLTopic = (topic: MLTopic) => {
+    const current = state.mlTopics.find(t => t.id === topic.id);
+    const wasJustCompleted = current && !current.isCompleted && topic.isCompleted;
+
     const updated = {
       ...state,
       mlTopics: state.mlTopics.map(t => t.id === topic.id ? topic : t)
     };
     handleUpdateState(updated);
+
+    if (wasJustCompleted) {
+      setNotePrompt({
+        taskId: topic.id,
+        taskName: topic.name,
+        domain: "ml"
+      });
+    }
   };
 
   const handleAddMilestone = (newMilestone: Omit<ProjectMilestone, "id">) => {
@@ -242,11 +269,22 @@ export default function App() {
   };
 
   const handleUpdateMilestone = (milestone: ProjectMilestone) => {
+    const current = state.projectMilestones.find(m => m.id === milestone.id);
+    const wasJustCompleted = current && !current.isCompleted && milestone.isCompleted;
+
     const updated = {
       ...state,
       projectMilestones: state.projectMilestones.map(m => m.id === milestone.id ? milestone : m)
     };
     handleUpdateState(updated);
+
+    if (wasJustCompleted) {
+      setNotePrompt({
+        taskId: milestone.id,
+        taskName: milestone.name,
+        domain: "project"
+      });
+    }
   };
 
   const handleDeleteMilestone = (id: string) => {
@@ -270,11 +308,22 @@ export default function App() {
   };
 
   const handleUpdateDay = (day: FIToolDay) => {
+    const current = state.aiToolsDays.find(d => d.id === day.id);
+    const wasJustCompleted = current && !current.isCompleted && day.isCompleted;
+
     const updated = {
       ...state,
       aiToolsDays: state.aiToolsDays.map(d => d.id === day.id ? day : d)
     };
     handleUpdateState(updated);
+
+    if (wasJustCompleted) {
+      setNotePrompt({
+        taskId: day.id,
+        taskName: day.name,
+        domain: "tools"
+      });
+    }
   };
 
   const handleDeleteDay = (id: string) => {
@@ -298,11 +347,22 @@ export default function App() {
   };
 
   const handleUpdateDSALog = (log: DSALog) => {
+    const current = state.dsaLogs.find(l => l.id === log.id);
+    const wasJustCompleted = current && !current.isCompleted && log.isCompleted;
+
     const updated = {
       ...state,
       dsaLogs: state.dsaLogs.map(l => l.id === log.id ? log : l)
     };
     handleUpdateState(updated);
+
+    if (wasJustCompleted) {
+      setNotePrompt({
+        taskId: log.id,
+        taskName: log.name,
+        domain: "dsa"
+      });
+    }
   };
 
   const handleDeleteDSALog = (id: string) => {
@@ -326,11 +386,22 @@ export default function App() {
   };
 
   const handleUpdateCloudTopic = (topic: CloudTopic) => {
+    const current = state.cloudTopics.find(t => t.id === topic.id);
+    const wasJustCompleted = current && !current.isCompleted && topic.isCompleted;
+
     const updated = {
       ...state,
       cloudTopics: state.cloudTopics.map(t => t.id === topic.id ? topic : t)
     };
     handleUpdateState(updated);
+
+    if (wasJustCompleted) {
+      setNotePrompt({
+        taskId: topic.id,
+        taskName: topic.name,
+        domain: "cloud"
+      });
+    }
   };
 
   const handleDeleteCloudTopic = (id: string) => {
@@ -339,6 +410,64 @@ export default function App() {
       cloudTopics: state.cloudTopics.filter(t => t.id !== id)
     };
     handleUpdateState(updated);
+  };
+
+  const handleSaveNote = (noteText: string) => {
+    if (!notePrompt) return;
+    const { taskId, taskName, domain } = notePrompt;
+
+    const newNote: LearningNote = {
+      id: `note-${Date.now()}`,
+      taskId,
+      taskName,
+      domain,
+      content: noteText,
+      createdAt: new Date().toISOString(),
+      dateLabel: new Date().toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+      timeLabel: new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })
+    };
+
+    // Update the task note in state
+    const nextState = { ...state };
+    if (domain === "ml") {
+      nextState.mlTopics = nextState.mlTopics.map(t => t.id === taskId ? { ...t, note: noteText } : t);
+    } else if (domain === "project") {
+      nextState.projectMilestones = nextState.projectMilestones.map(m => m.id === taskId ? { ...m, note: noteText } : m);
+    } else if (domain === "tools") {
+      nextState.aiToolsDays = nextState.aiToolsDays.map(d => d.id === taskId ? { ...d, note: noteText } : d);
+    } else if (domain === "dsa") {
+      nextState.dsaLogs = nextState.dsaLogs.map(l => l.id === taskId ? { ...l, note: noteText } : l);
+    } else if (domain === "cloud") {
+      nextState.cloudTopics = nextState.cloudTopics.map(t => t.id === taskId ? { ...t, note: noteText } : t);
+    }
+
+    nextState.notes = [newNote, ...(nextState.notes || [])];
+    handleUpdateState(nextState);
+    setNotePrompt(null);
+  };
+
+  const handleDeleteNote = (id: string) => {
+    const noteToDelete = state.notes?.find(n => n.id === id);
+    if (!noteToDelete) return;
+
+    // Clear the note field from the actual task as well
+    const { taskId, domain } = noteToDelete;
+    const nextState = { ...state };
+    
+    if (domain === "ml") {
+      nextState.mlTopics = nextState.mlTopics.map(t => t.id === taskId ? { ...t, note: undefined } : t);
+    } else if (domain === "project") {
+      nextState.projectMilestones = nextState.projectMilestones.map(m => m.id === taskId ? { ...m, note: undefined } : m);
+    } else if (domain === "tools") {
+      nextState.aiToolsDays = nextState.aiToolsDays.map(d => d.id === taskId ? { ...d, note: undefined } : d);
+    } else if (domain === "dsa") {
+      nextState.dsaLogs = nextState.dsaLogs.map(l => l.id === taskId ? { ...l, note: undefined } : l);
+    } else if (domain === "cloud") {
+      nextState.cloudTopics = nextState.cloudTopics.map(t => t.id === taskId ? { ...t, note: undefined } : t);
+    }
+
+    nextState.notes = (nextState.notes || []).filter(n => n.id !== id);
+    handleUpdateState(nextState);
   };
 
   // REAL COMPUTATIONS ENGINE BASED ENTIRELY ON ACTIVE USER TASKS
@@ -499,6 +628,7 @@ export default function App() {
       cloudTopics: [],
       streakState: defaultStreakState,
       badges: initialBadges,
+      notes: [],
       preferences: {
         userName: state.preferences?.userName || "Ashritha"
       }
@@ -532,6 +662,17 @@ export default function App() {
           currentStreak={currentStreak}
           isEarned={certIsEarned}
           onClose={() => setShowCertificate(false)}
+        />
+      )}
+
+      {/* Note modal overlay */}
+      {notePrompt && currentUser && (
+        <NoteModal
+          taskName={notePrompt.taskName}
+          domain={notePrompt.domain}
+          user={currentUser}
+          onSave={handleSaveNote}
+          onSkip={() => setNotePrompt(null)}
         />
       )}
 
@@ -918,6 +1059,14 @@ export default function App() {
                 title={currentUser === "harshith" ? "Python Learning" : undefined}
                 description={currentUser === "harshith" ? "Master Python fundamentals, libraries, and scripting." : undefined}
                 icon={currentUser === "harshith" ? FileCode2 : undefined}
+              />
+            )}
+
+            {activeTab === "notes" && (
+              <NotesModule 
+                notes={state.notes || []}
+                user={currentUser}
+                onDeleteNote={handleDeleteNote}
               />
             )}
 
